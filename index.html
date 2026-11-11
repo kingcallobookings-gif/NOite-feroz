@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Noite Feroz — The Night Belongs To The Fearless</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Syncopate:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#050506; --ink:#0c0c0f; --char:#16171a; --smoke:#2a2c31;
+  --silver:#cfd3da; --gold:#d4af37; --gold2:#f5d77a; --red:#b3122e; --red2:#ff2a4f;
+  --holo:linear-gradient(115deg,#bfc6d1 0%,#ffffff 12%,#f5d77a 24%,#ff6b8b 36%,#9d7bff 48%,#5ee7ff 60%,#b6ffcf 72%,#ffffff 84%,#bfc6d1 100%);
+  --gothic:'UnifrakturMaguntia',serif; --wide:'Syncopate',sans-serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--black)}
+body{font-family:var(--body);color:var(--silver);background:var(--black);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--red);color:#fff}
+
+/* ---------- global atmosphere ---------- */
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.aurora{position:fixed;inset:-20%;z-index:0;pointer-events:none;filter:blur(80px);opacity:.38}
+.aurora i{position:absolute;border-radius:50%;mix-blend-mode:screen;animation:drift 22s ease-in-out infinite alternate}
+.aurora i:nth-child(1){width:45vw;height:45vw;left:5%;top:10%;background:#3a1b6b}
+.aurora i:nth-child(2){width:40vw;height:40vw;right:0;top:35%;background:#5a0e1f;animation-duration:28s}
+.aurora i:nth-child(3){width:35vw;height:35vw;left:30%;bottom:0;background:#0d3a4a;animation-duration:32s}
+@keyframes drift{to{transform:translate(8vw,-6vh) scale(1.2)}}
+.grain{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.07;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.scan{position:fixed;inset:0;z-index:89;pointer-events:none;opacity:.05;background:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px)}
+main,header,footer,section{position:relative;z-index:2}
+
+.holo-text{background:var(--holo);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:holo 8s linear infinite}
+@keyframes holo{to{background-position:300% 0}}
+.gold-text{background:linear-gradient(180deg,#fff3c4,#d4af37 45%,#8a6a12);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{font-family:var(--wide);font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold)}
+.eyebrow::before{content:"";display:inline-block;width:28px;height:1px;background:currentColor;vertical-align:middle;margin-right:12px}
+
+/* ---------- loader ---------- */
+#loader{position:fixed;inset:0;z-index:200;background:var(--black);display:grid;place-items:center;transition:opacity .8s ease,visibility .8s}
+#loader.done{opacity:0;visibility:hidden}
+#loader svg{width:min(42vw,220px)}
+#loader .draw{stroke-dasharray:900;stroke-dashoffset:900;animation:draw 1.6s cubic-bezier(.6,0,.2,1) forwards}
+#loader .eyes{opacity:0;animation:eyes .4s 1.4s forwards}
+#loader p{font-family:var(--wide);letter-spacing:.6em;font-size:.7rem;margin-top:22px;text-align:center;opacity:0;animation:eyes .6s 1.2s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes eyes{to{opacity:1}}
+
+/* ---------- nav ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(18px,4vw,48px);transition:background .4s,backdrop-filter .4s,padding .4s}
+header.scrolled{background:rgba(5,5,6,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding-top:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand svg{width:38px;height:38px}
+.brand b{font-family:var(--wide);font-weight:700;font-size:.78rem;letter-spacing:.38em}
+nav ul{display:flex;gap:34px;list-style:none}
+nav a{font-family:var(--wide);font-size:.6rem;letter-spacing:.32em;text-transform:uppercase;opacity:.75;transition:opacity .3s}
+nav a:hover{opacity:1}
+.nav-right{display:flex;gap:12px;align-items:center}
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;font-family:var(--wide);font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;padding:14px 22px;border:1px solid rgba(255,255,255,.25);overflow:hidden;isolation:isolate;transition:border-color .3s,color .3s}
+.btn::before{content:"";position:absolute;inset:0;background:var(--holo);background-size:300% 100%;opacity:0;z-index:-1;transition:opacity .35s;animation:holo 6s linear infinite}
+.btn:hover{color:#000;border-color:transparent}
+.btn:hover::before{opacity:1}
+.btn.solid{background:var(--silver);color:#000;border-color:var(--silver)}
+.btn.red{border-color:var(--red2);color:#fff;background:rgba(179,18,46,.22)}
+.flash-toggle{font-family:var(--wide);font-size:.55rem;letter-spacing:.25em;padding:10px 14px;border:1px solid rgba(212,175,55,.5);color:var(--gold);border-radius:40px;display:flex;align-items:center;gap:8px}
+.flash-toggle .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.burger{display:none;width:34px;height:34px;flex-direction:column;justify-content:center;gap:6px}
+.burger span{display:block;height:1px;background:var(--silver);transition:.3s}
+@media(max-width:900px){
+  nav ul{position:fixed;inset:0;flex-direction:column;justify-content:center;align-items:center;gap:30px;background:rgba(5,5,6,.96);backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:.4s}
+  nav.open ul{opacity:1;pointer-events:auto}
+  nav a{font-size:.9rem}
+  .burger{display:flex;position:relative;z-index:3}
+  nav.open .burger span:first-child{transform:translateY(3.5px) rotate(45deg)}
+  nav.open .burger span:last-child{transform:translateY(-3.5px) rotate(-45deg)}
+  .brand b{display:none}
+  .nav-right .btn{display:none}
+}
+
+/* ---------- hero slideshow ---------- */
+.hero{height:100vh;height:100svh;min-height:620px;overflow:hidden;position:relative;touch-action:pan-y}
+.slide{position:absolute;inset:0;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;padding:110px clamp(20px,6vw,90px) 120px;opacity:0;visibility:hidden;transition:opacity 1.1s ease,visibility 1.1s}
+.slide.active{opacity:1;visibility:visible}
+.slide .bg{position:absolute;inset:0;z-index:-1;transform:scale(1.15);transition:transform 7s ease-out}
+.slide.active .bg{transform:scale(1)}
+.slide .copy{position:relative;z-index:2}
+.slide h1,.slide h2{font-family:var(--gothic);font-weight:400;line-height:.92;font-size:clamp(3rem,8.6vw,8.4rem);margin:18px 0 22px;letter-spacing:.01em}
+.slide h2{font-size:clamp(2.8rem,7.4vw,7rem)}
+.slide p.lead{max-width:440px;font-size:clamp(.9rem,1.2vw,1.05rem);line-height:1.7;color:#a9aeb8;font-weight:300}
+.slide .cta{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
+.slide .price-tag{font-family:var(--wide);font-size:.7rem;letter-spacing:.3em;margin-top:18px;color:#fff}
+.slide .price-tag em{font-style:normal;color:var(--gold)}
+.slide .visual{position:relative;display:grid;place-items:center;height:100%;max-height:72vh}
+.slide .visual svg{width:100%;height:100%;max-height:68vh;filter:drop-shadow(0 30px 60px rgba(0,0,0,.8))}
+.reveal-line{display:block;overflow:hidden}
+.reveal-line>span{display:inline-block;transform:translateY(110%);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.slide.active .reveal-line>span{transform:none}
+.slide.active .reveal-line:nth-child(2)>span{transition-delay:.12s}
+.slide.active .reveal-line:nth-child(3)>span{transition-delay:.24s}
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .9s .35s,transform .9s .35s}
+.slide.active .fade-up{opacity:1;transform:none}
+.slide .visual{opacity:0;transform:translateY(30px) scale(.94) rotate(-2deg);transition:opacity 1.2s .2s,transform 1.4s .2s cubic-bezier(.2,.8,.2,1)}
+.slide.active .visual{opacity:1;transform:none}
+.float{animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-14px)}}
+.halo{position:absolute;width:min(70vh,560px);aspect-ratio:1;border-radius:50%;background:conic-gradient(from 0deg,#ff2a4f33,#d4af3744,#5ee7ff33,#9d7bff44,#ff2a4f33);filter:blur(40px);animation:spin 18s linear infinite;z-index:-1}
+.ring{position:absolute;width:min(62vh,500px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.08)}
+.ring::after{content:"";position:absolute;inset:-1px;border-radius:50%;border:1px solid transparent;border-top-color:var(--gold);animation:spin 8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.big-num{position:absolute;right:clamp(20px,5vw,70px);top:90px;font-family:var(--wide);font-weight:700;font-size:clamp(5rem,16vw,15rem);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.07);z-index:-1}
+
+.hero-ui{position:absolute;left:0;right:0;bottom:0;z-index:5;padding:0 clamp(20px,6vw,90px) 34px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.dots{display:flex;gap:18px}
+.dots button{font-family:var(--wide);font-size:.58rem;letter-spacing:.2em;opacity:.4;padding:10px 0;position:relative;width:64px;text-align:left;transition:opacity .3s}
+.dots button.on{opacity:1}
+.dots button::after{content:"";position:absolute;left:0;bottom:2px;height:1px;width:100%;background:rgba(255,255,255,.2)}
+.dots button i{position:absolute;left:0;bottom:2px;height:1px;width:0;background:var(--holo);background-size:300% 100%;z-index:1}
+.dots button.on i{animation:prog var(--dur,6.5s) linear forwards}
+.paused .dots button.on i{animation-play-state:paused}
+@keyframes prog{to{width:100%}}
+.arrows{display:flex;gap:10px}
+.arrows button{width:52px;height:52px;border:1px solid rgba(255,255,255,.2);border-radius:50%;display:grid;place-items:center;transition:.3s;backdrop-filter:blur(6px)}
+.arrows button:hover{border-color:var(--gold);color:var(--gold)}
+.scroll-cue{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);z-index:5;font-family:var(--wide);font-size:.5rem;letter-spacing:.4em;opacity:.5;display:flex;flex-direction:column;align-items:center;gap:10px}
+.scroll-cue::after{content:"";width:1px;height:36px;background:linear-gradient(var(--silver),transparent);animation:cue 2s infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media(max-width:900px){
+  .slide{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:start;padding-top:92px;padding-bottom:110px;text-align:left}
+  .slide .visual{order:-1;height:36vh;max-height:none}
+  .slide .visual svg{max-height:36vh}
+  .halo,.ring{width:40vh}
+  .slide p.lead{font-size:.88rem}
+  .slide .cta .btn:not(:first-child){display:none}
+  .slide{padding-bottom:130px}
+  .scroll-cue{display:none}
+  .dots{gap:10px}.dots button{width:40px}
+  .arrows button{width:44px;height:44px}
+}
+
+/* ---------- marquee ---------- */
+.marquee{border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);overflow:hidden;padding:22px 0;background:rgba(5,5,6,.6);backdrop-filter:blur(6px)}
+.marquee .track{display:flex;width:max-content;animation:marq 40s linear infinite}
+.marquee span{font-family:var(--gothic);font-size:clamp(1.6rem,3.4vw,2.8rem);white-space:nowrap;padding:0 28px;display:flex;align-items:center;gap:56px}
+.marquee span::after{content:"✦";font-family:var(--body);font-size:.9rem;color:var(--gold)}
+.marquee span:nth-child(odd){color:transparent;-webkit-text-stroke:1px rgba(207,211,218,.55)}
+@keyframes marq{to{transform:translateX(-50%)}}
+.sa-stripe{height:3px;display:flex}
+.sa-stripe i{flex:1}
+
+/* ---------- sections ---------- */
+.sec{padding:clamp(80px,12vw,150px) clamp(20px,6vw,90px)}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:56px}
+.sec-head h2{font-family:var(--gothic);font-weight:400;font-size:clamp(2.6rem,6vw,5.4rem);line-height:.95;margin-top:16px}
+.sec-head p{max-width:420px;color:#8d929c;line-height:1.7;font-weight:300}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* product cards */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.card{--rx:0deg;--ry:0deg;--mx:50%;--my:50%;position:relative;border-radius:18px;padding:1px;background:linear-gradient(140deg,rgba(255,255,255,.25),rgba(255,255,255,.02) 40%,rgba(212,175,55,.35));transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .5s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.card.tilting{transition:transform .08s linear}
+.card-in{position:relative;border-radius:17px;background:linear-gradient(180deg,#111216,#08080a);overflow:hidden;height:100%;display:flex;flex-direction:column}
+.card-in::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
+  background:conic-gradient(from calc(var(--ry)*8) at var(--mx) var(--my),#ff6b8b,#f5d77a,#b6ffcf,#5ee7ff,#9d7bff,#ff6b8b);
+  mix-blend-mode:color-dodge;opacity:.12;transition:opacity .4s}
+.card-in::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;background:radial-gradient(circle at var(--mx) var(--my),rgba(255,255,255,.28),transparent 45%);opacity:0;transition:opacity .4s}
+.card:hover .card-in::before{opacity:.38}
+.card:hover .card-in::after{opacity:1}
+.card .art{aspect-ratio:1/1.05;display:grid;place-items:center;padding:24px;position:relative;background:radial-gradient(circle at 50% 40%,#1d1f25,transparent 70%)}
+.card .art svg{width:88%;height:88%;transform:translateZ(40px);transition:transform .6s}
+.card:hover .art svg{transform:translateZ(60px) scale(1.04)}
+.card .tag{position:absolute;top:16px;left:16px;font-family:var(--wide);font-size:.5rem;letter-spacing:.25em;padding:6px 10px;border:1px solid rgba(212,175,55,.5);color:var(--gold);border-radius:30px;z-index:5}
+.card .info{padding:20px 22px 24px;display:flex;flex-direction:column;gap:12px;flex:1;position:relative;z-index:5}
+.card h3{font-family:var(--wide);font-size:.78rem;letter-spacing:.2em;font-weight:700;color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font-size:.66rem;padding:5px 9px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#a3a8b2}
+.card .row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px}
+.price{font-family:var(--wide);font-weight:700;font-size:1.05rem;letter-spacing:.06em}
+.add{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;transition:.3s;font-size:1.2rem}
+.add:hover{background:var(--silver);color:#000}
+.add.added{background:var(--gold);color:#000;border-color:var(--gold)}
+
+.set-banner{margin-top:26px;border-radius:18px;padding:1px;background:var(--holo);background-size:300% 100%;animation:holo 8s linear infinite}
+.set-banner>div{border-radius:17px;background:#08080a;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:28px clamp(20px,4vw,44px);flex-wrap:wrap}
+.set-banner h3{font-family:var(--gothic);font-weight:400;font-size:clamp(2rem,4vw,3.2rem)}
+.set-banner .save{font-family:var(--wide);font-size:.6rem;letter-spacing:.25em;color:#8d929c;margin-top:6px}
+.set-banner .p{display:flex;align-items:center;gap:22px}
+.set-banner s{color:#666;font-family:var(--wide);font-size:.8rem}
+
+/* reflective + flash mode */
+.refl{stroke:#9aa0aa;transition:stroke .15s,filter .15s}
+.refl-fill{fill:#9aa0aa;transition:fill .15s,filter .15s}
+body.flash .refl{stroke:#fff;filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 10px #bfe9ff)}
+body.flash .refl-fill{fill:#fff;filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 12px #bfe9ff)}
+body.flash .flash-toggle{background:var(--gold);color:#000}
+body.flash .flash-toggle .dot{background:#000;box-shadow:none}
+#flashFx{position:fixed;inset:0;background:#fff;z-index:150;pointer-events:none;opacity:0}
+#flashFx.go{animation:flashfx .5s ease-out}
+@keyframes flashfx{0%{opacity:.9}100%{opacity:0}}
+.shimmer{stroke-dasharray:14 220;animation:shim 3.5s linear infinite}
+@keyframes shim{to{stroke-dashoffset:-234}}
+
+/* manifesto */
+.manifesto{text-align:center;overflow:hidden}
+.manifesto .wolf-big{width:min(340px,70vw);margin:0 auto 30px;display:block}
+.manifesto blockquote{font-family:var(--gothic);font-size:clamp(2.6rem,7.6vw,7rem);line-height:1;max-width:1100px;margin:0 auto}
+.manifesto .sub{max-width:640px;margin:34px auto 0;color:#8d929c;line-height:1.85;font-weight:300}
+.traits{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:50px}
+.traits span{font-family:var(--wide);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;padding:14px 22px;border-radius:40px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02);backdrop-filter:blur(6px);transition:.4s}
+.traits span:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-4px)}
+
+/* pillars */
+.pillars{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden}
+@media(max-width:1000px){.pillars{grid-template-columns:1fr}}
+.pillar{background:var(--black);padding:40px 28px 44px;position:relative;overflow:hidden;min-height:300px;display:flex;flex-direction:column;transition:background .5s}
+.pillar::before{content:"";position:absolute;inset:0;background:var(--holo);background-size:300% 100%;opacity:0;transition:opacity .6s;mix-blend-mode:soft-light;animation:holo 8s linear infinite}
+.pillar:hover{background:#0d0d10}
+.pillar:hover::before{opacity:.5}
+.pillar .n{font-family:var(--wide);font-size:.6rem;letter-spacing:.3em;color:var(--gold)}
+.pillar h3{font-family:var(--gothic);font-weight:400;font-size:2.4rem;margin:auto 0 12px;padding-top:60px;color:#fff;position:relative}
+.pillar p{color:#8d929c;line-height:1.6;font-size:.92rem;position:relative}
+@media(max-width:1000px){.pillar{min-height:auto}.pillar h3{padding-top:24px}}
+
+/* craft */
+.craft{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+@media(max-width:900px){.craft{grid-template-columns:1fr}}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.08);border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.stat{background:#07070a;padding:30px 24px}
+.stat b{display:block;font-family:var(--wide);font-weight:700;font-size:clamp(1.6rem,3vw,2.4rem)}
+.stat span{font-size:.8rem;color:#8d929c;line-height:1.5;display:block;margin-top:8px}
+.craft-copy h2{font-family:var(--gothic);font-weight:400;font-size:clamp(2.6rem,5.4vw,4.8rem);line-height:.95;margin:16px 0 24px}
+.craft-copy p{color:#8d929c;line-height:1.85;font-weight:300;margin-bottom:16px}
+.list{list-style:none;margin-top:24px;border-top:1px solid rgba(255,255,255,.08)}
+.list li{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:.88rem}
+.list li span:last-child{color:#8d929c;text-align:right}
+
+/* vault */
+.vault{background:radial-gradient(ellipse at 50% 0%,rgba(212,175,55,.12),transparent 60%)}
+.vault-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:900px){.vault-grid{grid-template-columns:1fr}}
+.v-item .card-in{padding:34px 28px;min-height:330px}
+.v-item .lock{font-family:var(--wide);font-size:.5rem;letter-spacing:.3em;color:var(--gold);display:flex;align-items:center;gap:8px}
+.v-item h3{font-family:var(--gothic);font-weight:400;font-size:2.2rem;color:#fff;margin:auto 0 14px;position:relative;z-index:5}
+.v-item p{color:#8d929c;font-size:.88rem;line-height:1.6;position:relative;z-index:5}
+.v-item .price{margin-top:20px;color:var(--gold);font-size:.9rem;position:relative;z-index:5}
+.v-item svg.icon{width:70px;height:70px;margin-bottom:30px;position:relative;z-index:5}
+.legacy{margin-top:22px}
+.legacy .card-in{display:grid;grid-template-columns:auto 1fr auto;gap:40px;align-items:center;padding:40px clamp(24px,4vw,50px)}
+@media(max-width:900px){.legacy .card-in{grid-template-columns:1fr;text-align:left;gap:20px}}
+.legacy svg{width:120px}
+.legacy h3{font-family:var(--gothic);font-weight:400;font-size:clamp(2.2rem,4.6vw,3.8rem);color:#fff}
+.legacy p{color:#8d929c;margin-top:8px;line-height:1.6}
+
+/* join */
+.join{text-align:center}
+.join h2{font-family:var(--gothic);font-weight:400;font-size:clamp(3rem,9vw,8rem);line-height:.92;margin:20px 0}
+.join p{color:#8d929c;max-width:520px;margin:0 auto;line-height:1.8}
+.join form{margin:40px auto 0;max-width:560px;display:flex;border-radius:60px;padding:1px;background:var(--holo);background-size:300% 100%;animation:holo 8s linear infinite}
+.join form>div{display:flex;flex:1;border-radius:60px;background:#08080a;padding:6px}
+.join input{flex:1;background:transparent;border:0;outline:0;color:#fff;padding:0 22px;font:inherit;font-size:.95rem;min-width:0}
+.join input::placeholder{color:#5c616b}
+.join button{border-radius:60px;background:var(--silver);color:#000;font-family:var(--wide);font-size:.58rem;letter-spacing:.25em;padding:16px 24px;white-space:nowrap}
+.form-msg{margin-top:18px;font-size:.85rem;color:var(--gold);min-height:1.2em}
+
+footer{padding:60px clamp(20px,6vw,90px) 40px;border-top:1px solid rgba(255,255,255,.07)}
+.foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;align-items:flex-end}
+.foot .big{font-family:var(--wide);font-weight:700;font-size:clamp(2.4rem,9vw,8.5rem);letter-spacing:.02em;line-height:.9}
+.foot-meta{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:40px;font-family:var(--wide);font-size:.52rem;letter-spacing:.3em;color:#5c616b;text-transform:uppercase}
+
+/* toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,120px);z-index:160;background:rgba(15,15,18,.92);border:1px solid rgba(212,175,55,.4);backdrop-filter:blur(10px);padding:14px 22px;border-radius:40px;font-size:.85rem;transition:transform .5s cubic-bezier(.2,.8,.2,1);display:flex;gap:10px;align-items:center}
+.toast.show{transform:translate(-50%,0)}
+.bag-count{font-family:var(--wide);font-size:.55rem;background:var(--gold);color:#000;border-radius:20px;padding:3px 8px;margin-left:4px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- shared SVG defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="holoG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#cfd3da"/><stop offset=".2" stop-color="#fff"/><stop offset=".35" stop-color="#f5d77a"/>
+      <stop offset=".5" stop-color="#ff6b8b"/><stop offset=".65" stop-color="#9d7bff"/><stop offset=".8" stop-color="#5ee7ff"/><stop offset="1" stop-color="#cfd3da"/>
+      <animateTransform attributeName="gradientTransform" type="rotate" from="0 .5 .5" to="360 .5 .5" dur="10s" repeatCount="indefinite"/>
+    </linearGradient>
+    <linearGradient id="goldG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff3c4"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#7a5c0e"/>
+    </linearGradient>
+    <linearGradient id="silverG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4f6f9"/><stop offset=".5" stop-color="#8d939c"/><stop offset="1" stop-color="#e3e6eb"/>
+    </linearGradient>
+    <radialGradient id="eyeG"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#ff2a4f"/><stop offset="1" stop-color="#ff2a4f" stop-opacity="0"/></radialGradient>
+    <pattern id="camo" width="120" height="120" patternUnits="userSpaceOnUse">
+      <rect width="120" height="120" fill="#141518"/>
+      <path d="M8 14c14-10 30-4 34 8s-10 20-22 18S-4 24 8 14z" fill="#24262b"/>
+      <path d="M60 4c18-4 34 6 30 18s-24 10-32 4-8-20 2-22z" fill="#0b0b0d"/>
+      <path d="M86 46c16-2 30 10 24 22s-26 8-30 0 0-20 6-22z" fill="#33363c"/>
+      <path d="M20 58c12-6 28 2 28 14s-18 18-28 12-12-20 0-26z" fill="#0b0b0d"/>
+      <path d="M50 90c14-8 34-2 32 12s-22 16-30 10-12-16-2-22z" fill="#24262b"/>
+      <path d="M4 96c10-4 20 4 16 14s-18 8-20 0 0-12 4-14z" fill="#33363c"/>
+      <path d="M96 94c10-6 24 2 22 12s-16 12-22 6-6-14 0-18z" fill="#0b0b0d"/>
+      <path d="M44 38c8-4 16 2 14 8s-12 6-14 2-4-8 0-10z" fill="#3d4046"/>
+    </pattern>
+    <pattern id="mesh" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="7" height="7" fill="rgba(20,20,24,.55)"/>
+      <path d="M0 0H7M0 0V7" stroke="#5b5f67" stroke-width=".9"/>
+    </pattern>
+
+    <!-- original NF wolf mark -->
+    <symbol id="wolf" viewBox="0 0 200 200">
+      <path class="w-out" d="M100 186 80 162 62 152 46 128 28 122 38 102 26 82 42 62 36 14 70 48 86 42 100 47 114 42 130 48 164 14 158 62 174 82 162 102 172 122 154 128 138 152 120 162Z"/>
+      <path d="M44 30 64 52 50 62Z M156 30 136 52 150 62Z"/>
+      <path d="M100 52 90 88 100 112 110 88Z M86 42 100 52 114 42"/>
+      <path d="M42 62 70 74 66 96 M158 62 130 74 134 96 M70 74 90 88 M130 74 110 88"/>
+      <path d="M66 96 46 128 M134 96 154 128 M66 96 84 132 100 112 116 132 134 96"/>
+      <path d="M84 132 100 166 116 132 M62 152 84 132 M138 152 116 132 M80 162 100 166 120 162"/>
+      <path d="M92 150H108L100 160Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<canvas id="stars"></canvas>
+<div class="aurora"><i></i><i></i><i></i></div>
+<div class="grain"></div><div class="scan"></div>
+<div id="flashFx"></div>
+
+<!-- loader -->
+<div id="loader" aria-hidden="true">
+  <div>
+    <svg viewBox="0 0 200 200" fill="none" stroke="url(#holoG)" stroke-width="1.6" stroke-linejoin="round">
+      <g class="draw"><use href="#wolf"/></g>
+      <g class="eyes"><path d="M68 92 88 97 77 103Z M132 92 112 97 123 103Z" fill="#ff2a4f" stroke="none"/></g>
+    </svg>
+    <p>NOITE FEROZ</p>
+  </div>
+</div>
+
+<header id="top">
+  <a href="#" class="brand" aria-label="Noite Feroz home">
+    <svg viewBox="0 0 200 200" fill="none" stroke="url(#holoG)" stroke-width="5" stroke-linejoin="round"><use href="#wolf"/><path d="M68 92 88 97 77 103Z M132 92 112 97 123 103Z" fill="#ff2a4f" stroke="none"/></svg>
+    <b>NOITE FEROZ</b>
+  </a>
+  <nav id="nav">
+    <ul>
+      <li><a href="#drop">Drop 01</a></li>
+      <li><a href="#manifesto">Manifesto</a></li>
+      <li><a href="#pillars">The Pack</a></li>
+      <li><a href="#craft">Craft</a></li>
+      <li><a href="#vault">Alpha Vault</a></li>
+    </ul>
+    <button class="burger" aria-label="Menu"><span></span><span></span></button>
+  </nav>
+  <div class="nav-right">
+    <button class="flash-toggle" id="flashBtn" title="Simulate camera flash on reflective details"><span class="dot"></span>FLASH</button>
+    <a href="#join" class="btn">Bag <span class="bag-count" id="bagCount">0</span></a>
+  </div>
+</header>
+
+<main>
+<!-- ================= HERO SLIDESHOW ================= -->
+<section class="hero" id="hero" aria-roledescription="carousel">
+
+  <!-- slide 1 -->
+  <article class="slide active" data-i="0">
+    <div class="bg" style="background:radial-gradient(ellipse at 70% 50%,rgba(179,18,46,.28),transparent 55%),radial-gradient(circle at 78% 30%,rgba(255,255,255,.06),transparent 30%)"></div>
+    <div class="big-num">01</div>
+    <div class="copy">
+      <span class="eyebrow fade-up">Premium African Streetwear</span>
+      <h1><span class="reveal-line"><span>The Night</span></span><span class="reveal-line"><span class="holo-text">Belongs To</span></span><span class="reveal-line"><span>The Fearless.</span></span></h1>
+      <p class="lead fade-up">A streetwear house built on the spirit of the wolf, the energy of the night and African ambition. Not clothing first — a mindset.</p>
+      <div class="cta fade-up"><a href="#drop" class="btn solid">Shop Drop 01</a><a href="#manifesto" class="btn">The Manifesto</a></div>
+    </div>
+    <div class="visual">
+      <div class="halo"></div><div class="ring"></div>
+      <svg viewBox="0 0 200 200" class="float" fill="none" stroke="url(#holoG)" stroke-width="1.4" stroke-linejoin="round">
+        <circle cx="150" cy="40" r="22" fill="url(#silverG)" opacity=".18" stroke="none"/>
+        <use href="#wolf"/>
+        <path d="M68 92 88 97 77 103Z M132 92 112 97 123 103Z" fill="#ff2a4f" stroke="none"/>
+        <circle cx="78" cy="97" r="9" fill="url(#eyeG)" stroke="none"><animate attributeName="opacity" values=".4;1;.4" dur="3s" repeatCount="indefinite"/></circle>
+        <circle cx="122" cy="97" r="9" fill="url(#eyeG)" stroke="none"><animate attributeName="opacity" values=".4;1;.4" dur="3s" repeatCount="indefinite"/></circle>
+      </svg>
+    </div>
+  </article>
+
+  <!-- slide 2 hoodie -->
+  <article class="slide" data-i="1">
+    <div class="bg" style="background:radial-gradient(ellipse at 70% 55%,rgba(94,231,255,.14),transparent 55%)"></div>
+    <div class="big-num">02</div>
+    <div class="copy">
+      <span class="eyebrow fade-up">Phantom Camo Edition</span>
+      <h2><span class="reveal-line"><span>Phantom</span></span><span class="reveal-line"><span class="holo-text">Camo Hoodie</span></span></h2>
+      <p class="lead fade-up">450 GSM brushed French terry. Oversized, boxy, double-layer hood. 3M reflective piping that ignites under flash — tap <b>FLASH</b> up top.</p>
+      <div class="price-tag fade-up">R2,299 <em>· Limited run</em></div>
+      <div class="cta fade-up"><button class="btn solid" data-add="Phantom Camo Hoodie">Add to Bag</button><a href="#drop" class="btn">Details</a></div>
+    </div>
+    <div class="visual">
+      <div class="halo"></div>
+      <svg viewBox="0 0 300 320" class="float"><use href="#hoodieArt"/></svg>
+    </div>
+  </article>
+
+  <!-- slide 3 pants -->
+  <article class="slide" data-i="2">
+    <div class="bg" style="background:radial-gradient(ellipse at 70% 55%,rgba(157,123,255,.18),transparent 55%)"></div>
+    <div class="big-num">03</div>
+    <div class="copy">
+      <span class="eyebrow fade-up">Phantom Camo Edition</span>
+      <h2><span class="reveal-line"><span>Stacked.</span></span><span class="reveal-line"><span class="holo-text">Built To Move.</span></span></h2>
+      <p class="lead fade-up">Wide-leg bell opening and an extended inseam that stacks over your footwear. Hidden-zip cargo, matte black YKK, reflective side seams.</p>
+      <div class="price-tag fade-up">R1,999 <em>· Stacked Pants</em></div>
+      <div class="cta fade-up"><button class="btn solid" data-add="Phantom Camo Stacked Pants">Add to Bag</button><a href="#drop" class="btn">Details</a></div>
+    </div>
+    <div class="visual">
+      <div class="halo"></div>
+      <svg viewBox="0 0 300 320" class="float"><use href="#pantsArt"/></svg>
+    </div>
+  </article>
+
+  <!-- slide 4 beanie -->
+  <article class="slide" data-i="3">
+    <div class="bg" style="background:radial-gradient(ellipse at 70% 55%,rgba(212,175,55,.18),transparent 55%)"></div>
+    <div class="big-num">04</div>
+    <div class="copy">
+      <span class="eyebrow fade-up">Night Accessory</span>
+      <h2><span class="reveal-line"><span>See-Through</span></span><span class="reveal-line"><span class="holo-text">Mesh Beanie</span></span></h2>
+      <p class="lead fade-up">Semi-transparent smoke-black power mesh, four-panel flatlock build, reflective silicone wordmark and a matte black NF metal badge.</p>
+      <div class="price-tag fade-up">R499 <em>· Smoke Black</em></div>
+      <div class="cta fade-up"><button class="btn solid" data-add="Noite Feroz Mesh Beanie">Add to Bag</button><a href="#drop" class="btn">Details</a></div>
+    </div>
+    <div class="visual">
+      <div class="halo"></div>
+      <svg viewBox="0 0 300 320" class="float"><use href="#beanieArt"/></svg>
+    </div>
+  </article>
+
+  <!-- slide 5 alpha -->
+  <article class="slide" data-i="4">
+    <div class="bg" style="background:radial-gradient(ellipse at 70% 50%,rgba(212,175,55,.25),transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(179,18,46,.18),transparent 50%)"></div>
+    <div class="big-num">05</div>
+    <div class="copy">
+      <span class="eyebrow fade-up">The Alpha Vault</span>
+      <h2><span class="reveal-line"><span>Built For</span></span><span class="reveal-line"><span class="gold-text">Legacy.</span></span></h2>
+      <p class="lead fade-up">Wolf Runner sneakers, the Alpha Wolf Tracksuit and one-of-one pieces in 24K gold. Numbered. Few. Earned.</p>
+      <div class="cta fade-up"><a href="#vault" class="btn red">Enter The Vault</a><a href="#join" class="btn">Join The Pack</a></div>
+    </div>
+    <div class="visual">
+      <div class="halo"></div><div class="ring"></div>
+      <svg viewBox="0 0 200 200" class="float" fill="none" stroke="url(#goldG)" stroke-width="1.6" stroke-linejoin="round">
+        <circle cx="100" cy="100" r="92" stroke-dasharray="2 6"/>
+        <use href="#wolf"/>
+        <path d="M68 92 88 97 77 103Z M132 92 112 97 123 103Z" fill="#fff" stroke="none" style="filter:drop-shadow(0 0 6px #fff)"/>
+      </svg>
+    </div>
+  </article>
+
+  <div class="hero-ui">
+    <div class="dots" id="dots"></div>
+    <div class="arrows">
+      <button id="prev" aria-label="Previous slide"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button id="next" aria-label="Next slide"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+  <div class="scroll-cue">SCROLL</div>
+</section>
+
+<!-- product art symbols -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="hoodieArt" viewBox="0 0 300 320">
+      <path d="M100 58Q150-2 200 58L252 80 292 205 262 216 240 146V300H60V146L38 216 8 205 48 80Z" fill="url(#camo)" stroke="#2c2e33" stroke-width="2"/>
+      <path d="M114 66Q150 30 186 66Q150 104 114 66Z" fill="#060607"/>
+      <path d="M100 58Q150 118 200 58" fill="none" stroke="#0a0a0c" stroke-width="3"/>
+      <rect x="60" y="282" width="180" height="18" fill="#0d0e10"/>
+      <rect x="8" y="198" width="32" height="14" transform="rotate(17 24 205)" fill="#0d0e10"/>
+      <rect x="260" y="198" width="32" height="14" transform="rotate(-17 276 205)" fill="#0d0e10"/>
+      <path d="M100 230H200L208 278H92Z" fill="none" stroke="#0a0a0c" stroke-width="2"/>
+      <path d="M136 92V122M164 92V122" stroke="#050505" stroke-width="2.5"/>
+      <circle cx="136" cy="124" r="3" fill="url(#silverG)"/><circle cx="164" cy="124" r="3" fill="url(#silverG)"/>
+      <!-- chest wolf -->
+      <g transform="translate(124 130) scale(.26)" fill="none" stroke-width="5" stroke-linejoin="round" class="refl"><use href="#wolf"/></g>
+      <text x="150" y="222" text-anchor="middle" font-family="UnifrakturMaguntia" font-size="16" class="refl-fill">Noite Feroz</text>
+      <text x="192" y="118" text-anchor="middle" font-family="Syncopate" font-weight="700" font-size="9" class="refl-fill">NF</text>
+      <!-- reflective piping -->
+      <path d="M48 80 100 58M252 80 200 58M48 80 8 205M252 80 292 205M60 146V282M240 146V282" fill="none" stroke-width="2.2" class="refl"/>
+      <path d="M48 80 8 205M252 80 292 205" fill="none" stroke="#fff" stroke-width="2.4" class="shimmer" opacity=".9"/>
+    </symbol>
+
+    <symbol id="pantsArt" viewBox="0 0 300 320">
+      <rect x="84" y="14" width="132" height="22" rx="3" fill="#0e0f11" stroke="#2c2e33"/>
+      <path d="M144 26Q150 50 141 60M156 26Q150 50 159 60" stroke="#050505" stroke-width="2" fill="none"/>
+      <path d="M84 36H149L146 130 140 292Q110 300 62 292Q66 230 74 160Z" fill="url(#camo)" stroke="#2c2e33" stroke-width="2"/>
+      <path d="M216 36H151L154 130 160 292Q190 300 238 292Q234 230 226 160Z" fill="url(#camo)" stroke="#2c2e33" stroke-width="2"/>
+      <!-- stacking -->
+      <path d="M70 240Q100 232 142 242M68 256Q104 248 141 258M66 272Q102 264 141 274M158 242Q200 232 230 240M159 258Q196 248 232 256M159 274Q198 264 234 272" fill="none" stroke="#08080a" stroke-width="2.4" opacity=".85"/>
+      <!-- cargo -->
+      <rect x="172" y="120" width="44" height="54" rx="3" fill="#121316" stroke="#2c2e33"/>
+      <path d="M176 128H212" stroke="#000" stroke-width="2.5"/>
+      <text x="194" y="158" text-anchor="middle" font-family="Syncopate" font-weight="700" font-size="11" fill="#9aa0aa">NF</text>
+      <text x="110" y="78" text-anchor="middle" font-family="UnifrakturMaguntia" font-size="14" class="refl-fill" transform="rotate(-4 110 78)">Noite Feroz</text>
+      <path d="M90 50Q98 64 112 58M210 50Q202 64 188 58" fill="none" stroke-width="2" class="refl"/>
+      <path d="M84 40 62 292M216 40 238 292" fill="none" stroke-width="2.2" class="refl"/>
+      <path d="M84 40 62 292M216 40 238 292" fill="none" stroke="#fff" stroke-width="2.4" class="shimmer"/>
+    </symbol>
+
+    <symbol id="beanieArt" viewBox="0 0 300 320">
+      <path d="M62 210Q58 70 150 62Q242 70 238 210Z" fill="url(#mesh)" stroke="#5b5f67" stroke-width="1.5"/>
+      <path d="M150 62V210M106 72Q96 140 100 210M194 72Q204 140 200 210" stroke="#2a2c31" stroke-width="2.5" fill="none"/>
+      <path d="M56 206Q150 196 244 206L246 248Q150 236 54 248Z" fill="url(#mesh)" stroke="#5b5f67" stroke-width="1.5"/>
+      <path d="M56 206Q150 196 244 206" stroke="#787d86" stroke-width="2" fill="none"/>
+      <text x="150" y="232" text-anchor="middle" font-family="Syncopate" font-weight="700" font-size="13" letter-spacing="3" class="refl-fill">NOITE FEROZ</text>
+      <g transform="translate(222 150)"><rect x="-9" y="-12" width="18" height="24" rx="3" fill="#1b1c1f" stroke="#55585f"/><text y="4" text-anchor="middle" font-family="Syncopate" font-weight="700" font-size="7" fill="#8d929c">NF</text></g>
+      <ellipse cx="150" cy="268" rx="96" ry="8" fill="#000" opacity=".5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ================= MARQUEE ================= -->
+<div class="sa-stripe" aria-hidden="true"><i style="background:#007a4d"></i><i style="background:#ffb612"></i><i style="background:#002395"></i><i style="background:#de3831"></i><i style="background:#000"></i><i style="background:#fff;opacity:.6"></i></div>
+<div class="marquee" aria-hidden="true">
+  <div class="track" id="marq">
+    <span>Move In Silence</span><span>Lead The Pack</span><span>Built For Legacy</span><span>Fear None</span><span>Earn Your Place</span><span>Alpha Mentality</span><span>Built In Africa. Worn Worldwide</span>
+  </div>
+</div>
+
+<!-- ================= DROP 01 ================= -->
+<section class="sec" id="drop">
+  <div class="sec-head reveal">
+    <div><span class="eyebrow">Drop 01 · Limited Capsule</span><h2>Phantom <span class="holo-text">Camo</span></h2></div>
+    <p>Tone-on-tone camo in jet black, charcoal and smoke grey, with reflective silver graphics. 20–50 units per colourway. When it's gone, it's gone.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card reveal"><div class="card-in">
+      <span class="tag">BESTSELLER</span>
+      <div class="art"><svg viewBox="0 0 300 320"><use href="#hoodieArt"/></svg></div>
+      <div class="info">
+        <h3>PHANTOM CAMO HOODIE</h3>
+        <div class="chips"><span>450 GSM</span><span>3M piping</span><span>3D embroidery</span><span>Oversized</span></div>
+        <div class="row"><span class="price">R2,299</span><button class="add" data-add="Phantom Camo Hoodie" aria-label="Add hoodie">+</button></div>
+      </div>
+    </div></div>
+
+    <div class="card reveal"><div class="card-in">
+      <span class="tag">STACKED FIT</span>
+      <div class="art"><svg viewBox="0 0 300 320"><use href="#pantsArt"/></svg></div>
+      <div class="info">
+        <h3>PHANTOM STACKED PANTS</h3>
+        <div class="chips"><span>Bell opening</span><span>YKK hidden zip</span><span>Reflective seams</span></div>
+        <div class="row"><span class="price">R1,999</span><button class="add" data-add="Phantom Camo Stacked Pants" aria-label="Add pants">+</button></div>
+      </div>
+    </div></div>
+
+    <div class="card reveal"><div class="card-in">
+      <span class="tag">HEAVYWEIGHT</span>
+      <div class="art"><svg viewBox="0 0 300 320">
+        <path d="M96 40Q150 66 204 40L262 66 286 130 246 146 232 112V296H68V112L54 146 14 130 38 66Z" fill="url(#camo)" stroke="#2c2e33" stroke-width="2"/>
+        <path d="M112 44Q150 74 188 44" fill="none" stroke="#0a0a0c" stroke-width="5"/>
+        <g transform="translate(116 104) scale(.34)" fill="none" stroke-width="5" stroke-linejoin="round" class="refl"><use href="#wolf"/></g>
+        <text x="150" y="198" text-anchor="middle" font-family="UnifrakturMaguntia" font-size="20" class="refl-fill">Noite Feroz</text>
+        <path d="M38 66 96 40M262 66 204 40" fill="none" stroke-width="2" class="refl"/>
+      </svg></div>
+      <div class="info">
+        <h3>PHANTOM CAMO TEE</h3>
+        <div class="chips"><span>Heavyweight cotton</span><span>Silicone wolf</span><span>Puff print</span></div>
+        <div class="row"><span class="price">R899</span><button class="add" data-add="Phantom Camo T-Shirt" aria-label="Add tee">+</button></div>
+      </div>
+    </div></div>
+
+    <div class="card reveal"><div class="card-in">
+      <span class="tag">SMOKE BLACK</span>
+      <div class="art"><svg viewBox="0 0 300 320"><use href="#beanieArt"/></svg></div>
+      <div class="info">
+        <h3>SEE-THROUGH MESH BEANIE</h3>
+        <div class="chips"><span>Nylon power mesh</span><span>Flatlock</span><span>Metal badge</span></div>
+        <div class="row"><span class="price">R499</span><button class="add" data-add="Noite Feroz Mesh Beanie" aria-label="Add beanie">+</button></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="set-banner reveal"><div>
+    <div><h3>The Full <span class="holo-text">Phantom</span> Set</h3><div class="save">TEE · HOODIE · STACKED PANTS</div></div>
+    <div class="p"><s>R5,197</s><span class="price" style="font-size:1.6rem">R3,999</span><button class="btn solid" data-add="Phantom Camo Full Set">Claim The Set</button></div>
+  </div></div>
+</section>
+
+<!-- ================= MANIFESTO ================= -->
+<section class="sec manifesto" id="manifesto">
+  <svg class="wolf-big reveal" viewBox="0 0 200 200" fill="none" stroke="url(#holoG)" stroke-width="1.1" stroke-linejoin="round">
+    <use href="#wolf"/>
+    <path d="M68 92 88 97 77 103Z M132 92 112 97 123 103Z" fill="#ff2a4f" stroke="none"/>
+  </svg>
+  <span class="eyebrow reveal">What The Wolf Represents</span>
+  <blockquote class="reveal" style="margin-top:22px">Confident, not loud.<br><span class="holo-text">Premium, not flashy.</span></blockquote>
+  <p class="sub reveal">The wolf isn't a logo. It's a code. Noite Feroz exists to inspire fearless individuals to build their legacy through discipline, ambition and unwavering confidence. African, never stereotypical.</p>
+  <div class="traits reveal">
+    <span>Leadership</span><span>Loyalty</span><span>Discipline</span><span>Independence</span><span>Strength In Adversity</span><span>Protect The Pack</span><span>Relentless Ambition</span>
+  </div>
+</section>
+
+<!-- ================= PILLARS ================= -->
+<section class="sec" id="pillars">
+  <div class="sec-head reveal">
+    <div><span class="eyebrow">Brand Pillars</span><h2>The Pack <span class="holo-text">Code</span></h2></div>
+    <p>Five rules for the 18–35 builders, creatives, entrepreneurs and night-movers who stand out without chasing trends.</p>
+  </div>
+  <div class="pillars reveal">
+    <div class="pillar"><span class="n">I</span><h3>Fearlessness</h3><p>Take risks. Lead. Build.</p></div>
+    <div class="pillar"><span class="n">II</span><h3>Legacy</h3><p>Create something that outlives you.</p></div>
+    <div class="pillar"><span class="n">III</span><h3>Discipline</h3><p>Success is earned daily.</p></div>
+    <div class="pillar"><span class="n">IV</span><h3>Brotherhood</h3><p>The pack moves together.</p></div>
+    <div class="pillar"><span class="n">V</span><h3>African Excellence</h3><p>Built in Africa. Designed for the world.</p></div>
+  </div>
+</section>
+
+<!-- ================= CRAFT ================= -->
+<section class="sec" id="craft">
+  <div class="craft">
+    <div class="craft-copy reveal">
+      <span class="eyebrow">The Standard</span>
+      <h2>Feel The <span class="holo-text">Difference</span> In The Dark.</h2>
+      <p>Every Noite Feroz piece is made to luxury streetwear standard — heavyweight fabric, clean finishing and reflective details tested under direct flash photography.</p>
+      <ul class="list">
+        <li><span>Main fabric</span><span>100% cotton French terry, enzyme washed</span></li>
+        <li><span>Ribbing</span><span>2x2 cotton rib, 98/2 elastane</span></li>
+        <li><span>Trims</span><span>Matte black YKK, metal-tip drawcords</span></li>
+        <li><span>Labels</span><span>Woven damask + internal NF authentication</span></li>
+        <li><span>Finish</span><span>Double needle, bar-tacked stress points</span></li>
+      </ul>
+    </div>
+    <div class="stats reveal">
+      <div class="stat"><b class="holo-text" data-count="450">0</b><span>GSM brushed French terry</span></div>
+      <div class="stat"><b class="gold-text">3M</b><span>Reflective piping on every seam that matters</span></div>
+      <div class="stat"><b class="holo-text" data-count="50">0</b><span>Max units per colourway, per drop</span></div>
+      <div class="stat"><b class="gold-text">1/1</b><span>Woven authentication label inside every piece</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VAULT ================= -->
+<section class="sec vault" id="vault">
+  <div class="sec-head reveal">
+    <div><span class="eyebrow">Coming Soon · The Alpha Vault</span><h2>Signature <span class="gold-text">Pieces</span></h2></div>
+    <p>The next chapter of the house. Numbered releases for those who've earned their place.</p>
+  </div>
+  <div class="vault-grid">
+    <div class="card v-item reveal"><div class="card-in">
+      <span class="lock">🔒 LOCKED</span>
+      <svg class="icon" viewBox="0 0 80 80" fill="none" stroke="url(#goldG)" stroke-width="1.5"><path d="M6 52Q8 34 26 32L40 22Q50 18 54 30L60 40Q74 42 74 54V60H6Z"/><path d="M6 60H74M14 66H70" stroke-dasharray="4 3"/><circle cx="48" cy="44" r="3" fill="#ff2a4f" stroke="none"/></svg>
+      <h3>Wolf Runner</h3>
+      <p>Tsonga-inspired sole patterns. Red, white and black. Reflective wolf-eye details.</p>
+      <div class="price">R12,000 – R25,000</div>
+    </div></div>
+    <div class="card v-item reveal"><div class="card-in">
+      <span class="lock">🔒 LOCKED</span>
+      <svg class="icon" viewBox="0 0 80 80" fill="none" stroke="url(#goldG)" stroke-width="1.5"><path d="M26 8 40 14 54 8 70 18 66 40 58 36V58H22V36L14 40 10 18Z"/><path d="M22 46H58M22 50H58" stroke-dasharray="3 2"/><circle cx="40" cy="28" r="5"/></svg>
+      <h3>Alpha Wolf Tracksuit</h3>
+      <p>Premium fabrics, Tsonga pattern panels and a wolf crest in embroidery.</p>
+      <div class="price">R18,000 – R45,000</div>
+    </div></div>
+    <div class="card v-item reveal"><div class="card-in">
+      <span class="lock">🔒 LOCKED</span>
+      <svg class="icon" viewBox="0 0 80 80" fill="none" stroke="url(#goldG)" stroke-width="1.5"><rect x="8" y="28" width="64" height="36" rx="10"/><path d="M28 28Q28 14 40 14Q52 14 52 28M8 44H72"/><circle cx="40" cy="44" r="4" fill="url(#goldG)"/></svg>
+      <h3>The Duffle</h3>
+      <p>Luxury leather, carbon-fibre accents, wolf hardware and hidden compartments.</p>
+      <div class="price">R10,000 – R35,000</div>
+    </div></div>
+  </div>
+  <div class="card legacy reveal"><div class="card-in">
+    <svg viewBox="0 0 200 200" fill="none" stroke="url(#goldG)" stroke-width="2.2" stroke-linejoin="round"><use href="#wolf"/><path d="M68 92 88 97 77 103Z M132 92 112 97 123 103Z" fill="#fff" stroke="none" style="filter:drop-shadow(0 0 5px #fff)"/></svg>
+    <div><span class="eyebrow">Numbered 1 of 1</span><h3 style="margin-top:12px">Legacy <span class="gold-text">Alpha Wolf</span></h3><p>24K solid gold. Custom-cut VVS diamonds. White glowing wolf eyes. One exists.</p></div>
+    <a href="#join" class="btn red">Request Access</a>
+  </div></div>
+</section>
+
+<!-- ================= JOIN ================= -->
+<section class="sec join" id="join">
+  <span class="eyebrow reveal">Pre-orders · Drop alerts · Vault access</span>
+  <h2 class="reveal">Earn Your <span class="holo-text">Place</span></h2>
+  <p class="reveal">The pack hears first. Get notified before Phantom Camo pre-orders open and before every limited capsule.</p>
+  <form id="joinForm" class="reveal" novalidate>
+    <div><input type="email" id="email" placeholder="Your email" aria-label="Email" required><button type="submit">Join The Pack</button></div>
+  </form>
+  <div class="form-msg" id="formMsg" role="status"></div>
+</section>
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="big holo-text">NOITE FEROZ</div>
+    <div style="max-width:300px;color:#8d929c;line-height:1.7;font-size:.9rem">The Wolf. The Night. The Legacy.<br>Built In Africa. Worn Worldwide.</div>
+  </div>
+  <div class="sa-stripe" style="margin-top:40px;opacity:.7"><i style="background:#007a4d"></i><i style="background:#ffb612"></i><i style="background:#002395"></i><i style="background:#de3831"></i></div>
+  <div class="foot-meta"><span>© 2026 Noite Feroz</span><span>Move In Silence. Lead The Pack.</span><span>South Africa</span></div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+
+/* loader */
+window.addEventListener('load',()=>setTimeout(()=>$('#loader').classList.add('done'),1900));
+setTimeout(()=>$('#loader').classList.add('done'),3500);
+
+/* starfield + moon */
+const cv=$('#stars'),cx=cv.getContext('2d');let W,H,stars=[],shoot=null;const dpr=Math.min(devicePixelRatio||1,2);
+function size(){W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;
+  const n=Math.round(innerWidth*innerHeight/5000);
+  stars=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:(Math.random()*1.2+.2)*dpr,p:Math.random()*6.28,s:.005+Math.random()*.02,h:Math.random()}));}
+size();addEventListener('resize',size);
+let scrollY0=0;addEventListener('scroll',()=>scrollY0=scrollY,{passive:true});
+function frame(){
+  cx.clearRect(0,0,W,H);
+  for(const s of stars){s.p+=s.s;const a=.35+.65*Math.abs(Math.sin(s.p));
+    const y=(s.y-scrollY0*dpr*.05*(s.r))%H;const yy=y<0?y+H:y;
+    cx.fillStyle=s.h>.93?`rgba(245,215,122,${a})`:s.h>.88?`rgba(255,120,150,${a})`:`rgba(220,226,235,${a})`;
+    cx.beginPath();cx.arc(s.x,yy,s.r,0,6.28);cx.fill();}
+  if(!shoot&&Math.random()<.004)shoot={x:Math.random()*W*.8,y:Math.random()*H*.4,l:0};
+  if(shoot){shoot.l+=14*dpr;const g=cx.createLinearGradient(shoot.x+shoot.l,shoot.y+shoot.l*.4,shoot.x+shoot.l-120*dpr,shoot.y+shoot.l*.4-48*dpr);
+    g.addColorStop(0,'rgba(255,255,255,.9)');g.addColorStop(1,'rgba(255,255,255,0)');cx.strokeStyle=g;cx.lineWidth=1.2*dpr;cx.beginPath();
+    cx.moveTo(shoot.x+shoot.l,shoot.y+shoot.l*.4);cx.lineTo(shoot.x+shoot.l-120*dpr,shoot.y+shoot.l*.4-48*dpr);cx.stroke();if(shoot.l>600*dpr)shoot=null;}
+  requestAnimationFrame(frame);}
+frame();
+
+/* header */
+addEventListener('scroll',()=>$('#top').classList.toggle('scrolled',scrollY>40),{passive:true});
+const nav=$('#nav');$('.burger').onclick=()=>nav.classList.toggle('open');
+$$('#nav a').forEach(a=>a.onclick=()=>nav.classList.remove('open'));
+
+/* slideshow */
+const hero=$('#hero'),slides=$$('.slide'),dots=$('#dots');let cur=0,timer=null;const DUR=6500;
+slides.forEach((_,i)=>{const b=document.createElement('button');b.innerHTML=String(i+1).padStart(2,'0')+'<i></i>';b.setAttribute('aria-label','Slide '+(i+1));b.onclick=()=>go(i);dots.appendChild(b);});
+dots.style.setProperty('--dur',DUR+'ms');
+function go(i){slides[cur].classList.remove('active');cur=(i+slides.length)%slides.length;slides[cur].classList.add('active');
+  $$('#dots button').forEach((b,j)=>{b.classList.remove('on');void b.offsetWidth;if(j===cur)b.classList.add('on')});restart();}
+function restart(){clearTimeout(timer);timer=setTimeout(()=>go(cur+1),DUR);}
+$('#next').onclick=()=>go(cur+1);$('#prev').onclick=()=>go(cur-1);
+go(0);
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+let sx=null,sy=null;
+hero.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+hero.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+  if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy))go(cur+(dx<0?1:-1));sx=null},{passive:true});
+document.addEventListener('visibilitychange',()=>{document.hidden?clearTimeout(timer):restart()});
+/* parallax on hero visual */
+hero.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=hero.getBoundingClientRect();
+  const x=(e.clientX/r.width-.5),y=(e.clientY/r.height-.5);
+  $$('.slide.active .visual svg').forEach(s=>s.style.transform=`translate(${x*-24}px,${y*-18}px) rotateY(${x*10}deg)`);});
+
+/* holo tilt cards */
+$$('.card').forEach(c=>{
+  c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();const px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+    c.classList.add('tilting');c.style.setProperty('--mx',px*100+'%');c.style.setProperty('--my',py*100+'%');
+    c.style.setProperty('--ry',((px-.5)*14)+'deg');c.style.setProperty('--rx',((.5-py)*12)+'deg');});
+  c.addEventListener('pointerleave',()=>{c.classList.remove('tilting');c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')});
+});
+
+/* reveal + counters */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');
+  e.target.querySelectorAll('[data-count]').forEach(n=>{const t=+n.dataset.count;let v=0;const st=performance.now();
+    (function tick(now){const p=Math.min((now-st)/1400,1);v=Math.round(t*(1-Math.pow(1-p,3)));n.textContent=v;if(p<1)requestAnimationFrame(tick)})(st)});
+  io.unobserve(e.target)}}),{threshold:.15});
+$$('.reveal').forEach(el=>io.observe(el));
+
+/* marquee duplicate */
+const m=$('#marq');m.innerHTML+=m.innerHTML;
+
+/* flash mode */
+$('#flashBtn').onclick=()=>{const fx=$('#flashFx');fx.classList.remove('go');void fx.offsetWidth;fx.classList.add('go');
+  document.body.classList.toggle('flash');toast(document.body.classList.contains('flash')?'📸 Flash on — reflective details lit up':'Flash off');};
+
+/* bag */
+let bag=0;
+$$('[data-add]').forEach(b=>b.addEventListener('click',()=>{bag++;$('#bagCount').textContent=bag;
+  if(b.classList.contains('add')){b.classList.add('added');b.textContent='✓';setTimeout(()=>{b.classList.remove('added');b.textContent='+'},1600)}
+  toast('🐺 '+b.dataset.add+' added to your bag')}));
+
+/* toast */
+let tt;function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400)}
+
+/* join form (preview: not connected to a mailing list yet) */
+$('#joinForm').addEventListener('submit',e=>{e.preventDefault();const v=$('#email').value.trim();const msg=$('#formMsg');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){msg.textContent='Enter a valid email to join the pack.';return}
+  msg.textContent='Sign-ups open at launch — this preview isn’t connected to a mailing list yet.';});
+})();
+</script>
+</body>
+</html>

@@ -6,821 +6,463 @@
 <title>Noite Feroz — The Night Belongs To The Fearless</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Oswald:wght@500;600;700&family=Playfair+Display:wght@700;900&family=Syncopate:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/look-grey-boots.webp">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --black:#050506; --silver:#cfd3da; --gold:#d4af37; --red:#b3122e; --red2:#ff2a4f; --glow:#e9f7e4;
-  --holo:linear-gradient(115deg,#bfc6d1 0%,#ffffff 12%,#f5d77a 24%,#ff6b8b 36%,#9d7bff 48%,#5ee7ff 60%,#b6ffcf 72%,#ffffff 84%,#bfc6d1 100%);
-  --gothic:'UnifrakturMaguntia',serif; --cond:'Oswald',sans-serif; --serif:'Playfair Display',serif; --wide:'Syncopate',sans-serif; --body:'Inter',system-ui,sans-serif;
+  --ink:#000; --paper:#fff; --mute:#767676; --line:#e5e5e5; --tile:#f2f2f2; --red:#c8102e;
+  --holo:linear-gradient(115deg,transparent 20%,rgba(255,255,255,0) 30%,rgba(255,107,139,.28) 40%,rgba(245,215,122,.28) 46%,rgba(94,231,255,.28) 52%,rgba(157,123,255,.28) 58%,transparent 70%);
+  --gothic:'UnifrakturMaguntia',serif; --sans:'Helvetica Neue','Inter',Helvetica,Arial,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;background:var(--black);overflow-x:hidden}
-body{font-family:var(--body);color:var(--silver);background:var(--black);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+html{overflow-x:clip;scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:12px;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;overflow-x:clip}
 a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-img{display:block;max-width:100%}
-::selection{background:var(--red);color:#fff}
+button,input{font:inherit;color:inherit;background:none;border:0}
+button{cursor:pointer}
+img{display:block;width:100%}
+.up{text-transform:uppercase;letter-spacing:.04em}
+.u{text-decoration:underline;text-underline-offset:3px}
+.u:hover{text-decoration:none}
+section{scroll-margin-top:70px}
+.pad{padding-left:clamp(14px,2.2vw,32px);padding-right:clamp(14px,2.2vw,32px)}
 
-/* atmosphere */
-#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.aurora{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none;filter:blur(80px);opacity:.35}
-.aurora i{position:absolute;border-radius:50%;mix-blend-mode:screen;animation:drift 22s ease-in-out infinite alternate}
-.aurora i:nth-child(1){width:45vw;height:45vw;left:5%;top:10%;background:#3a1b6b}
-.aurora i:nth-child(2){width:40vw;height:40vw;right:0;top:35%;background:#5a0e1f;animation-duration:28s}
-.aurora i:nth-child(3){width:35vw;height:35vw;left:30%;bottom:0;background:#0d3a4a;animation-duration:32s}
-@keyframes drift{to{transform:translate(8vw,-6vh) scale(1.2)}}
-.grain{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.06;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
-.scan{position:fixed;inset:0;z-index:89;pointer-events:none;opacity:.045;background:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px)}
-main,header,footer,section{position:relative;z-index:2}
+/* announcement bar */
+.announce{background:#000;color:#fff;height:34px;overflow:hidden;position:relative;font-size:11px}
+.announce div{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(8px);transition:.6s}
+.announce div.on{opacity:1;transform:none}
 
-.holo-text{background:var(--holo);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:holo 8s linear infinite}
-@keyframes holo{to{background-position:300% 0}}
-.gold-text{background:linear-gradient(180deg,#fff3c4,#d4af37 45%,#8a6a12);-webkit-background-clip:text;background-clip:text;color:transparent}
-.red-text{color:var(--red2);text-shadow:0 0 18px rgba(255,42,79,.6),0 0 40px rgba(255,42,79,.3)}
-.glow-text{color:#fff;text-shadow:0 0 10px rgba(233,247,228,.8),0 0 30px rgba(233,247,228,.35)}
-.eyebrow{font-family:var(--wide);font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold)}
-.eyebrow::before{content:"";display:inline-block;width:28px;height:1px;background:currentColor;vertical-align:middle;margin-right:12px}
-.dots-sa{display:inline-flex;gap:7px;vertical-align:middle}
-.dots-sa i{width:8px;height:8px;border-radius:50%;box-shadow:0 0 8px currentColor}
-.dots-sa i:nth-child(1){background:#de3831;color:#de3831}.dots-sa i:nth-child(2){background:#ffb612;color:#ffb612}.dots-sa i:nth-child(3){background:#007a4d;color:#007a4d}.dots-sa i:nth-child(4){background:#2a52d6;color:#2a52d6}
-
-/* NF monogram */
-.nf{font-family:'Playfair Display',Georgia,serif!important;font-weight:900;line-height:1;display:inline-block;letter-spacing:0}
-.nf b{font-weight:900;display:inline-block;margin-left:-.26em;transform:translateY(.14em)}
-
-/* loader */
-#loader{position:fixed;inset:0;z-index:200;background:var(--black);display:grid;place-items:center;transition:opacity .8s ease,visibility .8s}
-#loader.done{opacity:0;visibility:hidden}
-#loader .nf{font-size:clamp(4rem,16vw,7rem);background:var(--holo);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:holo 3s linear infinite,pop 1.2s cubic-bezier(.2,.8,.2,1) both}
-#loader p{font-family:var(--cond);font-weight:600;letter-spacing:.5em;font-size:.9rem;margin-top:18px;text-align:center;opacity:0;animation:fadein .6s .7s forwards}
-#loader .bar{width:160px;height:1px;background:rgba(255,255,255,.12);margin:22px auto 0;overflow:hidden}
-#loader .bar i{display:block;height:100%;width:100%;background:var(--holo);transform:translateX(-100%);animation:load 1.5s .3s ease forwards}
-@keyframes pop{from{opacity:0;transform:scale(.7);filter:blur(10px)}}
-@keyframes fadein{to{opacity:1}}
-@keyframes load{to{transform:none}}
-
-/* nav */
-header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(18px,4vw,48px);transition:background .4s,padding .4s}
-header.scrolled{background:rgba(5,5,6,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding-top:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.06)}
-.brand{display:flex;align-items:center;gap:14px}
-.brand .nf{font-size:2rem;color:#fff;text-shadow:0 0 14px rgba(255,255,255,.35)}
-.brand>span:not(.nf){font-family:var(--cond);font-weight:600;font-size:1rem;letter-spacing:.32em;line-height:1}
-.brand small{display:block;font-family:var(--wide);font-size:.42rem;letter-spacing:.4em;color:#8d929c;margin-top:5px}
-nav ul{display:flex;gap:30px;list-style:none}
-nav a{font-family:var(--wide);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;opacity:.75;transition:opacity .3s}
-nav a:hover{opacity:1}
-.nav-right{display:flex;gap:12px;align-items:center}
-.btn{position:relative;display:inline-flex;align-items:center;gap:10px;font-family:var(--wide);font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;padding:14px 22px;border:1px solid rgba(255,255,255,.25);overflow:hidden;isolation:isolate;transition:border-color .3s,color .3s}
-.btn::before{content:"";position:absolute;inset:0;background:var(--holo);background-size:300% 100%;opacity:0;z-index:-1;transition:opacity .35s;animation:holo 6s linear infinite}
-.btn:hover{color:#000;border-color:transparent}
-.btn:hover::before{opacity:1}
-.btn.solid{background:var(--silver);color:#000;border-color:var(--silver)}
-.btn.red{border-color:var(--red2);color:#fff;background:rgba(179,18,46,.25);box-shadow:0 0 24px rgba(255,42,79,.25)}
-.flash-toggle{font-family:var(--wide);font-size:.55rem;letter-spacing:.25em;padding:10px 14px;border:1px solid rgba(212,175,55,.5);color:var(--gold);border-radius:40px;display:flex;align-items:center;gap:8px}
-.flash-toggle .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
-.burger{display:none;width:34px;height:34px;flex-direction:column;justify-content:center;gap:6px}
-.burger span{display:block;height:1px;background:var(--silver);transition:.3s}
-.bag-count{font-family:var(--wide);font-size:.55rem;background:var(--gold);color:#000;border-radius:20px;padding:3px 8px;margin-left:4px}
-@media(max-width:1000px){
-  nav ul{position:fixed;inset:0;flex-direction:column;justify-content:center;align-items:center;gap:30px;background:rgba(5,5,6,.96);backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:.4s}
-  nav.open ul{opacity:1;pointer-events:auto}
-  nav a{font-size:.9rem}
-  .burger{display:flex;position:relative;z-index:3}
-  nav.open .burger span:first-child{transform:translateY(3.5px) rotate(45deg)}
-  nav.open .burger span:last-child{transform:translateY(-3.5px) rotate(-45deg)}
-  .brand>span:not(.nf){display:none}
-  .nav-right .btn{display:none}
-}
-
-/* ---------- hero slideshow ---------- */
-.hero{height:100vh;height:100svh;min-height:640px;overflow:hidden;position:relative;touch-action:pan-y}
-.slide{position:absolute;inset:0;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:30px;padding:110px clamp(20px,6vw,90px) 120px;opacity:0;visibility:hidden;transition:opacity 1.1s ease,visibility 1.1s}
-.slide.active{opacity:1;visibility:visible}
-.slide .bg{position:absolute;inset:-40px;z-index:-1;background-size:cover;background-position:center;filter:blur(30px) saturate(1.3) brightness(.38);transform:scale(1.15);transition:transform 7s ease-out}
-.slide .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,6,.9) 0%,rgba(5,5,6,.4) 60%,rgba(5,5,6,.2))}
-.slide.active .bg{transform:scale(1)}
-.slide .copy{position:relative;z-index:2}
-.slide h1,.slide h2{font-weight:400;line-height:.92;margin:18px 0 22px}
-.slide h1{font-family:var(--gothic);font-size:clamp(3rem,8vw,8rem)}
-.slide h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(3rem,7.4vw,7.2rem);letter-spacing:.01em;line-height:.9}
-.slide h2 .g{font-family:var(--gothic);text-transform:none;font-weight:400}
-.slide p.lead{max-width:440px;font-size:clamp(.9rem,1.2vw,1.05rem);line-height:1.7;color:#b4b9c2;font-weight:300}
-.slide .cta{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
-.slide .price-tag{font-family:var(--wide);font-size:.72rem;line-height:1.8;letter-spacing:.28em;margin-top:18px;color:#fff}
-.slide .price-tag em{font-style:normal;color:var(--gold)}
-.slide .visual{position:relative;display:grid;place-items:center;height:100%;max-height:74vh;perspective:1000px}
-.frame{position:relative;height:100%;max-height:72vh;aspect-ratio:var(--ar,4/5);border-radius:18px;padding:1.5px;background:var(--holo);background-size:300% 100%;animation:holo 6s linear infinite;box-shadow:0 40px 90px rgba(0,0,0,.8),0 0 60px rgba(157,123,255,.18);transform-style:preserve-3d;transition:transform .3s ease-out}
-.frame img{width:100%;height:100%;object-fit:cover;border-radius:17px}
-.frame::after{content:"";position:absolute;inset:1.5px;border-radius:17px;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.18) 45%,rgba(157,123,255,.15) 50%,rgba(94,231,255,.12) 55%,transparent 70%);background-size:250% 100%;mix-blend-mode:screen;animation:sweep 5s ease-in-out infinite}
-@keyframes sweep{0%{background-position:150% 0}60%,100%{background-position:-60% 0}}
-.reveal-line{display:block;overflow:hidden;padding-bottom:.06em}
-.reveal-line>span{display:inline-block;transform:translateY(110%);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
-.slide.active .reveal-line>span{transform:none}
-.slide.active .reveal-line:nth-child(2)>span{transition-delay:.12s}
-.slide.active .reveal-line:nth-child(3)>span{transition-delay:.24s}
-.fade-up{opacity:0;transform:translateY(24px);transition:opacity .9s .35s,transform .9s .35s}
-.slide.active .fade-up{opacity:1;transform:none}
-.slide .visual{opacity:0;transform:translateY(40px) scale(.94);transition:opacity 1.2s .15s,transform 1.4s .15s cubic-bezier(.2,.8,.2,1)}
-.slide.active .visual{opacity:1;transform:none}
-.halo{position:absolute;width:min(70vh,600px);aspect-ratio:1;border-radius:50%;background:conic-gradient(from 0deg,#ff2a4f44,#d4af3744,#5ee7ff33,#9d7bff44,#ff2a4f44);filter:blur(50px);animation:spin 18s linear infinite;z-index:-1}
-@keyframes spin{to{transform:rotate(360deg)}}
-.big-num{position:absolute;right:clamp(20px,4vw,60px);top:80px;font-family:var(--cond);font-weight:700;font-size:clamp(5rem,15vw,14rem);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.08);z-index:-1}
-.hero-ui{position:absolute;left:0;right:0;bottom:0;z-index:5;padding:0 clamp(20px,6vw,90px) 30px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
-.dots{display:flex;gap:16px}
-.dots button{font-family:var(--wide);font-size:.56rem;letter-spacing:.2em;opacity:.4;padding:10px 0;position:relative;width:56px;text-align:left;transition:opacity .3s}
-.dots button.on{opacity:1}
-.dots button::after{content:"";position:absolute;left:0;bottom:2px;height:1px;width:100%;background:rgba(255,255,255,.2)}
-.dots button i{position:absolute;left:0;bottom:2px;height:1px;width:0;background:var(--holo);background-size:300% 100%;z-index:1}
-.dots button.on i{animation:prog var(--dur,6.5s) linear forwards}
-@keyframes prog{to{width:100%}}
-.arrows{display:flex;gap:10px}
-.arrows button{width:52px;height:52px;border:1px solid rgba(255,255,255,.2);border-radius:50%;display:grid;place-items:center;transition:.3s;backdrop-filter:blur(6px);background:rgba(0,0,0,.25)}
-.arrows button:hover{border-color:var(--gold);color:var(--gold)}
+/* header */
+header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid transparent;transition:border-color .3s}
+header.scrolled{border-bottom-color:var(--line)}
+.hbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px}
+.hl,.hr{display:flex;gap:22px;align-items:center}
+.hr{justify-content:flex-end}
+.hl a,.hr a,.hr button,.hl button{font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.hl a:hover,.hr a:hover,.hr button:hover{text-decoration:underline;text-underline-offset:3px}
+.logo{font-family:var(--gothic);font-size:34px;line-height:1;letter-spacing:.01em;position:relative;white-space:nowrap}
+.logo:hover{background:linear-gradient(115deg,#000 35%,#ff6b8b 45%,#d4af37 50%,#5ee7ff 55%,#000 65%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 1.4s linear}
+@keyframes sheen{from{background-position:120% 0}to{background-position:-60% 0}}
+.menu-btn{display:none}
 @media(max-width:900px){
-  .slide{grid-template-columns:1fr;grid-template-rows:auto auto;align-content:start;gap:18px;padding-top:80px;padding-bottom:128px}
-  .slide .visual{order:-1;height:36vh;max-height:none}
-  .frame{max-height:36vh}
-  .halo{width:44vh}
-  .slide h1{font-size:clamp(2.6rem,12vw,4rem);margin:10px 0 12px}
-  .slide h2{font-size:clamp(2.6rem,13vw,4.2rem);margin:10px 0 12px}
-  .slide p.lead{font-size:.86rem;line-height:1.6}
-  .slide .cta{margin-top:18px}
-  .slide .cta .btn:not(:first-child){display:none}
-  .dots{gap:8px}.dots button{width:30px;font-size:.5rem}
-  .arrows button{width:44px;height:44px}
-  .big-num{display:none}
+  .hl a{display:none}.menu-btn{display:block}
+  .hr .hide-m{display:none}
+  .logo{font-size:28px}
 }
-@media(max-width:900px) and (max-height:760px){.slide .visual,.frame{height:32vh;max-height:32vh}.slide p.lead{display:none}}
+#menu{position:fixed;inset:0;z-index:70;background:#fff;transform:translateX(-100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;padding:22px}
+#menu.open{transform:none}
+#menu a{font-size:22px;text-transform:uppercase;letter-spacing:.02em;padding:12px 0;border-bottom:1px solid var(--line)}
+#menu .close{align-self:flex-end;font-size:11px;text-transform:uppercase;margin-bottom:24px}
 
-/* marquee */
-.marquee{border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);overflow:hidden;padding:22px 0;background:rgba(5,5,6,.6);backdrop-filter:blur(6px)}
-.marquee .track{display:flex;width:max-content;animation:marq 45s linear infinite}
-.marquee span{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(1.6rem,3.4vw,2.8rem);letter-spacing:.04em;white-space:nowrap;padding:0 28px;display:flex;align-items:center;gap:56px}
-.marquee span::after{content:"✦";font-family:var(--body);font-size:.9rem;color:var(--red2)}
-.marquee span:nth-child(odd){color:transparent;-webkit-text-stroke:1px rgba(207,211,218,.55)}
-@keyframes marq{to{transform:translateX(-50%)}}
-.sa-stripe{height:3px;display:flex}
-.sa-stripe i{flex:1}
+/* hero slideshow */
+.hero{position:relative;height:calc(100vh - 98px);min-height:520px;overflow:hidden;background:#000}
+.slide{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;opacity:0;visibility:hidden;transition:opacity 1s ease,visibility 1s;overflow:hidden}
+.slide.on{opacity:1;visibility:visible}
+.slide figure{position:relative;overflow:hidden;cursor:zoom-in}
+.slide img{height:100%;object-fit:cover;object-position:center top;transform:scale(1.06);transition:transform 7s ease-out}
+.slide.on img{transform:scale(1)}
+.slide .cap{position:absolute;left:clamp(14px,2.2vw,32px);bottom:42px;color:#fff;z-index:2;text-shadow:0 1px 14px rgba(0,0,0,.5)}
+.slide .cap h2{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.slide .cap p{font-size:12px;margin-bottom:12px;max-width:340px;opacity:.9}
+.slide .cap a{font-size:12px;text-transform:uppercase;text-decoration:underline;text-underline-offset:3px}
+.slide::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(transparent,rgba(0,0,0,.55));pointer-events:none}
+.hero-ui{position:absolute;right:clamp(14px,2.2vw,32px);bottom:42px;z-index:3;display:flex;align-items:center;gap:16px;color:#fff;font-size:11px}
+.hero-ui button{width:28px;height:28px;display:grid;place-items:center;color:#fff}
+.progress{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.2);z-index:3}
+.progress i{display:block;height:100%;width:0;background:#fff}
+.progress i.run{animation:prog var(--dur) linear forwards}
+@keyframes prog{to{width:100%}}
+@media(max-width:760px){
+  .hero{height:calc(100svh - 98px)}
+  .slide{grid-template-columns:1fr}
+  .slide figure:nth-child(2){display:none}
+}
 
-/* sections */
-.sec{padding:clamp(80px,11vw,140px) clamp(20px,6vw,90px)}
-.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:50px}
-.sec-head h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(2.6rem,6vw,5.6rem);line-height:.92;margin-top:16px}
-.sec-head h2 .g{font-family:var(--gothic);font-weight:400;text-transform:none}
-.sec-head p{max-width:420px;color:#8d929c;line-height:1.7;font-weight:300}
-.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.8,.2,1)}
-.reveal.in{opacity:1;transform:none}
+.shead{display:flex;justify-content:space-between;align-items:baseline;padding-top:56px;padding-bottom:18px}
+.shead h3{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.shead a{font-size:11px;text-transform:uppercase}
+.filters{display:flex;gap:18px;padding-bottom:16px;overflow-x:auto;scrollbar-width:none}
+.filters button{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute);padding-bottom:3px;border-bottom:1px solid transparent;white-space:nowrap}
+.filters button.on{color:#000;border-bottom-color:#000}
 
-/* product cards */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.grid{grid-template-columns:1fr}}
-.card{--rx:0deg;--ry:0deg;--mx:50%;--my:50%;position:relative;border-radius:18px;padding:1px;background:linear-gradient(140deg,rgba(255,255,255,.28),rgba(255,255,255,.03) 40%,rgba(212,175,55,.35));transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .5s cubic-bezier(.2,.8,.2,1)}
-.card.tilting{transition:transform .08s linear}
-.card-in{position:relative;border-radius:17px;background:linear-gradient(180deg,#111216,#08080a);overflow:hidden;height:100%;display:flex;flex-direction:column}
-.card-in::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
-  background:conic-gradient(from calc(var(--ry)*8) at var(--mx) var(--my),#ff6b8b,#f5d77a,#b6ffcf,#5ee7ff,#9d7bff,#ff6b8b);
-  mix-blend-mode:color-dodge;opacity:.06;transition:opacity .4s}
-.card-in::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;background:radial-gradient(circle at var(--mx) var(--my),rgba(255,255,255,.25),transparent 45%);opacity:0;transition:opacity .4s}
-.card:hover .card-in::before{opacity:.16}
-.card:hover .card-in::after{opacity:1}
-.card .art{aspect-ratio:1/1;position:relative;overflow:hidden;background:#000}
-.card .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.2,.8,.2,1),opacity .6s}
-.card:hover .art img{transform:scale(1.06)}
-.card .art img.alt{opacity:0}
-.card:hover .art img.alt{opacity:1}
-.card .art::after{content:"";position:absolute;inset:auto 0 0 0;height:35%;background:linear-gradient(transparent,#0a0a0c)}
-.card .tag{position:absolute;top:14px;left:14px;font-family:var(--wide);font-size:.5rem;letter-spacing:.25em;padding:6px 10px;border:1px solid rgba(212,175,55,.6);color:var(--gold);border-radius:30px;z-index:5;background:rgba(0,0,0,.55);backdrop-filter:blur(6px)}
-.card .tag.r{border-color:rgba(255,42,79,.7);color:#ff6b80}
-.card .hint{position:absolute;bottom:12px;right:14px;z-index:5;font-family:var(--wide);font-size:.45rem;letter-spacing:.25em;opacity:.6}
-.card .info{padding:18px 22px 22px;display:flex;flex-direction:column;gap:12px;flex:1;position:relative;z-index:5}
-.card h3{font-family:var(--cond);font-weight:600;font-size:1.25rem;letter-spacing:.08em;color:#fff;text-transform:uppercase}
-.card h3 small{display:block;font-family:var(--wide);font-size:.48rem;letter-spacing:.3em;color:#8d929c;margin-top:6px;font-weight:400}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chips span{font-size:.66rem;padding:5px 9px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#a3a8b2}
-.card .row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:6px}
-.price{font-family:var(--cond);font-weight:600;font-size:1.5rem;letter-spacing:.04em;color:#fff}
-.add{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;transition:.3s;font-size:1.2rem}
-.add:hover{background:var(--silver);color:#000}
-.add.added{background:var(--gold);color:#000;border-color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 6px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr);gap:22px 4px}}
+.prod{position:relative}
+.prod.hide{display:none}
+.pimg{position:relative;aspect-ratio:3/4;background:var(--tile);overflow:hidden;cursor:zoom-in}
+.pimg img{position:absolute;inset:0;height:100%;object-fit:cover;transition:opacity .5s,transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.pimg img.alt{opacity:0}
+.prod:hover .pimg img.alt{opacity:1}
+.prod:hover .pimg img{transform:scale(1.03)}
+.pimg::after{content:"";position:absolute;inset:0;background:var(--holo);background-size:250% 100%;background-position:130% 0;mix-blend-mode:screen;pointer-events:none;opacity:0}
+.prod:hover .pimg::after{opacity:1;animation:holoSweep 1.3s ease-out forwards}
+@keyframes holoSweep{from{background-position:130% 0}to{background-position:-40% 0}}
+.badge{position:absolute;top:10px;left:10px;z-index:2;background:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.04em;padding:4px 7px}
+.badge.r{background:var(--red);color:#fff}
+.po-b{background:#000;color:#fff}
+.po-b+.b2{top:36px}
+.sizes{position:absolute;left:0;right:0;bottom:0;z-index:3;background:rgba(255,255,255,.96);display:flex;justify-content:center;gap:4px;padding:10px 6px;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.prod:hover .sizes{transform:none}
+.sizes button{font-size:11px;min-width:34px;height:28px;border:1px solid transparent;text-transform:uppercase}
+.sizes button:hover{border-color:#000}
+.sizes .lbl{font-size:10px;color:var(--mute);align-self:center;margin-right:6px;text-transform:uppercase}
+.pinfo{padding-top:10px;display:flex;flex-direction:column;gap:3px}
+.pinfo .n{font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.pinfo .c{font-size:11px;color:var(--mute)}
+.pinfo .p{font-size:11px;margin-top:3px}
+.po{color:var(--red);text-transform:uppercase;font-size:10px;letter-spacing:.04em}
+.msizes{display:none;gap:4px;margin-top:8px;flex-wrap:wrap}
+.msizes button{font-size:10px;border:1px solid var(--line);min-width:30px;height:26px;padding:0 6px;text-transform:uppercase}
+@media(hover:none){.sizes{display:none}.msizes{display:flex}}
 
-.set-banner{margin-top:26px;border-radius:18px;padding:1px;background:var(--holo);background-size:300% 100%;animation:holo 8s linear infinite}
-.set-banner>div{border-radius:17px;background:#08080a;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:30px;padding:20px clamp(18px,3vw,30px);overflow:hidden}
-.set-banner img{width:120px;height:170px;object-fit:cover;object-position:top;border-radius:10px}
-.set-banner h3{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(1.8rem,3.6vw,3rem);line-height:1}
-.set-banner .save{font-family:var(--wide);font-size:.56rem;letter-spacing:.25em;color:#8d929c;margin-top:10px}
-.set-banner .p{display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:flex-end}
-.set-banner s{color:#666;font-family:var(--cond);font-size:1.1rem}
-@media(max-width:760px){.set-banner>div{grid-template-columns:90px 1fr}.set-banner img{width:90px;height:130px}.set-banner .p{grid-column:1/-1;justify-content:space-between}}
+.edit{position:relative;margin-top:64px;display:grid;grid-template-columns:1.25fr 1fr;background:#000;color:#fff;min-height:80vh}
+.edit figure{overflow:hidden;cursor:zoom-in}
+.edit figure img{height:100%;object-fit:cover}
+.edit .txt{padding:clamp(28px,5vw,80px);display:flex;flex-direction:column;justify-content:flex-end;gap:16px}
+.edit .kicker{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#bbb}
+.edit h2{font-family:var(--gothic);font-weight:400;font-size:clamp(44px,6vw,92px);line-height:.95}
+.edit p{font-size:13px;line-height:1.6;max-width:420px;color:#ccc}
+.spec{display:grid;grid-template-columns:repeat(4,auto);gap:22px;font-size:11px;text-transform:uppercase;border-top:1px solid #333;padding-top:16px;margin-top:8px}
+.spec span{display:block;color:#888;margin-bottom:4px}
+@media(max-width:860px){.edit{grid-template-columns:1fr}.edit figure{aspect-ratio:1323/1189}.spec{grid-template-columns:repeat(2,auto)}}
 
-/* flash mode: reflective pieces flare */
-body.flash .card .art img,body.flash .frame img,body.flash .look img{filter:brightness(1.25) contrast(1.15) drop-shadow(0 0 0 #fff)}
-body.flash .glow-on{animation:flare 1.6s ease-in-out infinite}
-@keyframes flare{50%{filter:brightness(1.6) contrast(1.2)}}
-body.flash .flash-toggle{background:var(--gold);color:#000}
-body.flash .flash-toggle .dot{background:#000;box-shadow:none}
-#flashFx{position:fixed;inset:0;background:#fff;z-index:150;pointer-events:none;opacity:0}
-#flashFx.go{animation:flashfx .5s ease-out}
-@keyframes flashfx{0%{opacity:.9}100%{opacity:0}}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
+.cat{position:relative;aspect-ratio:3/4;overflow:hidden;background:#000;color:#fff}
+.cat img{height:100%;object-fit:cover;object-position:top;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.cat:hover img{transform:scale(1.04)}
+.cat .l{position:absolute;left:16px;bottom:18px;z-index:2}
+.cat .l b{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.cat .l span{font-size:11px;text-transform:uppercase;text-decoration:underline;text-underline-offset:3px}
+.cat::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(transparent,rgba(0,0,0,.6))}
+@media(max-width:700px){.cats{grid-template-columns:1fr}.cat{aspect-ratio:4/5}}
 
-/* duffle */
-.duffle-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;margin-bottom:40px}
-@media(max-width:900px){.duffle-hero{grid-template-columns:1fr}}
-.duffle-hero .frame{height:auto;max-height:none;aspect-ratio:1323/1189;width:100%}
-.duffle-hero h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(2.8rem,6.4vw,5.8rem);line-height:.9;margin:16px 0 20px}
-.duffle-hero p{color:#8d929c;line-height:1.8;font-weight:300}
-.specs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.08);border-radius:14px;overflow:hidden;margin-top:26px;border:1px solid rgba(255,255,255,.08)}
-.specs div{background:#07070a;padding:16px 18px}
-.specs b{display:block;font-family:var(--cond);font-weight:600;font-size:1.2rem;color:#fff}
-.specs span{font-size:.72rem;color:#8d929c;letter-spacing:.05em}
-.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-@media(max-width:1100px){.tiers{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.tiers{grid-template-columns:1fr}}
-.tier .art{aspect-ratio:1/.95}
-.tier .art img{object-fit:cover}
-.tier ul{list-style:none;display:flex;flex-direction:column;gap:7px}
-.tier li{font-size:.78rem;color:#a3a8b2;padding-left:16px;position:relative}
-.tier li::before{content:"›";position:absolute;left:0;color:var(--gold)}
-.tier .inc{font-size:.72rem;color:#6e737c;font-style:italic}
-
-/* manifesto */
-.manifesto{text-align:center;overflow:hidden}
-.wolf-glow{width:min(440px,84vw);margin:0 auto 34px;border-radius:20px;padding:1.5px;background:var(--holo);background-size:300% 100%;animation:holo 6s linear infinite;box-shadow:0 0 80px rgba(255,42,79,.35)}
-.wolf-glow img{border-radius:19px;width:100%}
-.manifesto blockquote{font-family:var(--gothic);font-size:clamp(2.6rem,7.6vw,7rem);line-height:1;max-width:1100px;margin:0 auto}
-.manifesto .sub{max-width:640px;margin:34px auto 0;color:#8d929c;line-height:1.85;font-weight:300}
-.traits{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:50px}
-.traits span{font-family:var(--wide);font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;padding:14px 22px;border-radius:40px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02);backdrop-filter:blur(6px);transition:.4s}
-.traits span:hover{border-color:var(--red2);color:#ff6b80;transform:translateY(-4px)}
-
-/* pillars */
-.pillars{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden}
-@media(max-width:1000px){.pillars{grid-template-columns:1fr}}
-.pillar{background:var(--black);padding:40px 28px 44px;position:relative;overflow:hidden;min-height:300px;display:flex;flex-direction:column;transition:background .5s}
-.pillar::before{content:"";position:absolute;inset:0;background:var(--holo);background-size:300% 100%;opacity:0;transition:opacity .6s;mix-blend-mode:soft-light;animation:holo 8s linear infinite}
-.pillar:hover{background:#0d0d10}
-.pillar:hover::before{opacity:.5}
-.pillar .n{font-family:var(--wide);font-size:.6rem;letter-spacing:.3em;color:var(--red2)}
-.pillar h3{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:2rem;letter-spacing:.04em;margin:auto 0 12px;padding-top:60px;color:#fff;position:relative;line-height:1}
-.pillar p{color:#8d929c;line-height:1.6;font-size:.92rem;position:relative}
-@media(max-width:1000px){.pillar{min-height:auto}.pillar h3{padding-top:22px}}
-
-/* lookbook */
-.lookbook{padding-left:0;padding-right:0}
-.lookbook .sec-head{padding:0 clamp(20px,6vw,90px)}
-.strip{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px clamp(20px,6vw,90px) 30px;scrollbar-width:none}
+.strip{display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
 .strip::-webkit-scrollbar{display:none}
-.look{flex:0 0 auto;height:min(68vh,620px);scroll-snap-align:center;border-radius:16px;padding:1px;background:linear-gradient(140deg,rgba(255,255,255,.3),rgba(255,255,255,.04) 40%,rgba(212,175,55,.4));cursor:zoom-in;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
-.look:hover{transform:translateY(-8px)}
-.look img{height:100%;width:auto;border-radius:15px}
-.look figcaption{display:none}
-.strip-nav{display:flex;gap:10px;padding:0 clamp(20px,6vw,90px)}
-@media(max-width:700px){.look{height:56vh}}
-#lightbox{position:fixed;inset:0;z-index:180;background:rgba(3,3,4,.95);backdrop-filter:blur(10px);display:grid;place-items:center;opacity:0;visibility:hidden;transition:.4s}
+.strip figure{flex:0 0 auto;height:min(72vh,640px);scroll-snap-align:start;cursor:zoom-in;background:#000}
+.strip img{height:100%;width:auto}
+.strip figcaption{display:none}
+@media(max-width:700px){.strip figure{height:62vh}}
+
+.manifesto{text-align:center;padding-top:110px;padding-bottom:110px;border-top:1px solid var(--line);margin-top:70px}
+.manifesto .logo-b{font-family:var(--gothic);font-size:clamp(46px,8vw,118px);line-height:1}
+.manifesto p{max-width:560px;margin:26px auto 0;font-size:13px;line-height:1.7;color:#333}
+.manifesto .vals{margin-top:28px;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute);display:flex;gap:10px 22px;justify-content:center;flex-wrap:wrap}
+.sa{display:inline-flex;gap:6px;margin-top:22px}
+.sa i{width:7px;height:7px;border-radius:50%}
+
+footer{border-top:1px solid var(--line);padding-top:48px;padding-bottom:28px}
+.fcols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px}
+@media(max-width:800px){.fcols{grid-template-columns:1fr 1fr}.fcols .news{grid-column:1/-1}}
+.fcols h4{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px}
+.fcols a{display:block;font-size:11px;text-transform:uppercase;color:#333;margin-bottom:9px}
+.fcols a:hover{text-decoration:underline;text-underline-offset:3px}
+.news p{font-size:11px;color:#333;line-height:1.6;margin-bottom:14px;max-width:320px}
+.news form{display:flex;border-bottom:1px solid #000;max-width:360px}
+.news input{flex:1;padding:10px 0;font-size:12px;outline:0;min-width:0}
+.news button{font-size:11px;text-transform:uppercase}
+.news .msg{font-size:11px;color:var(--mute);margin-top:10px;min-height:1.2em}
+.fbig{font-family:var(--gothic);font-size:clamp(60px,15vw,230px);line-height:.9;text-align:center;margin-top:56px;letter-spacing:.01em;white-space:nowrap}
+.fmeta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:10px;text-transform:uppercase;color:var(--mute);margin-top:22px}
+
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:80;opacity:0;visibility:hidden;transition:.35s}
+#scrim.on{opacity:1;visibility:visible}
+#bag{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:#fff;z-index:81;transform:translateX(100%);visibility:hidden;transition:transform .45s cubic-bezier(.2,.8,.2,1),visibility .45s;display:flex;flex-direction:column}
+#bag.on{transform:none;visibility:visible}
+.bhead{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--line);font-size:11px;text-transform:uppercase}
+.bitems{flex:1;overflow:auto;padding:8px 22px}
+.bitem{display:grid;grid-template-columns:72px 1fr auto;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);font-size:11px;text-transform:uppercase}
+.bitem img{aspect-ratio:3/4;object-fit:cover;background:var(--tile)}
+.bitem .m{color:var(--mute);margin-top:4px}
+.bitem button{font-size:10px;color:var(--mute);text-decoration:underline;align-self:start}
+.bempty{padding:40px 0;text-align:center;color:var(--mute);font-size:11px;text-transform:uppercase}
+.bfoot{border-top:1px solid var(--line);padding:18px 22px 24px;font-size:11px;text-transform:uppercase}
+.bfoot .row{display:flex;justify-content:space-between;margin-bottom:14px}
+.bfoot .co{display:block;width:100%;background:#000;color:#fff;padding:15px;text-transform:uppercase;font-size:11px;letter-spacing:.04em}
+.pnote{color:var(--mute);text-transform:none;font-size:11px;margin-top:10px;line-height:1.5}
+.bfoot .note{color:var(--mute);margin-top:10px;text-transform:none;font-size:11px;min-height:1.2em}
+
+#lightbox{position:fixed;inset:0;z-index:100;background:#000;display:grid;place-items:center;opacity:0;visibility:hidden;transition:.3s}
 #lightbox.open{opacity:1;visibility:visible}
-#lightbox{background:#000!important;backdrop-filter:none!important}
-#lightbox img{max-width:96vw;max-height:84vh;object-fit:contain;border-radius:0;box-shadow:none;filter:none!important}
-.zoomable{cursor:zoom-in}
-#lbCount{font-family:var(--wide);font-size:.5rem;letter-spacing:.3em;position:absolute;top:32px;left:24px;opacity:.6}
-#lightbox .lb-ui{position:absolute;left:0;right:0;bottom:22px;display:flex;justify-content:center;gap:12px;align-items:center}
-#lightbox .lb-ui span{font-family:var(--body);font-size:.8rem;letter-spacing:.04em;color:#9aa0aa;min-width:180px;max-width:60vw;text-align:center;line-height:1.4}
-#lightbox .x{position:absolute;top:18px;right:18px;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.25);font-size:1.3rem}
+#lightbox img{max-width:96vw;max-height:84vh;width:auto;object-fit:contain}
+#lightbox .x{position:absolute;top:16px;right:16px;color:#fff;font-size:11px;text-transform:uppercase;padding:10px}
+#lbCount{position:absolute;top:26px;left:20px;color:#999;font-size:11px}
+#lightbox .lbui{position:absolute;left:0;right:0;bottom:20px;display:flex;justify-content:center;align-items:center;gap:18px;color:#fff}
+#lightbox .lbui button{color:#fff;width:40px;height:40px;font-size:18px}
+#lbCap{font-size:11px;text-transform:uppercase;color:#bbb;max-width:60vw;text-align:center;line-height:1.4}
 
-/* vault */
-.vault{background:radial-gradient(ellipse at 50% 0%,rgba(179,18,46,.16),transparent 60%)}
-.vault-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-@media(max-width:1000px){.vault-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:620px){.vault-grid{grid-template-columns:1fr}}
-.v-item .art{aspect-ratio:4/4.4}
-.v-item .art img{object-position:center top}
-.lock{font-family:var(--wide);font-size:.5rem;letter-spacing:.3em;color:var(--gold)}
-.v-item p{color:#8d929c;font-size:.86rem;line-height:1.6}
-.v-item .price{color:var(--gold);font-size:1.15rem}
-.legacy{margin-top:22px}
-.legacy .card-in{display:grid;grid-template-columns:auto 1fr auto;gap:40px;align-items:center;padding:36px clamp(24px,4vw,50px)}
-@media(max-width:900px){.legacy .card-in{grid-template-columns:1fr;gap:18px}}
-.legacy .nf{font-size:5rem}
-.legacy h3{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(2rem,4.4vw,3.6rem);color:#fff;line-height:1}
-.legacy p{color:#8d929c;margin-top:10px;line-height:1.6}
-
-/* join */
-.join{text-align:center}
-.join h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(3.2rem,10vw,9rem);line-height:.9;margin:20px 0}
-.join p{color:#8d929c;max-width:520px;margin:0 auto;line-height:1.8}
-.join form{margin:40px auto 0;max-width:560px;display:flex;border-radius:60px;padding:1px;background:var(--holo);background-size:300% 100%;animation:holo 8s linear infinite}
-.join form>div{display:flex;flex:1;border-radius:60px;background:#08080a;padding:6px}
-.join input{flex:1;background:transparent;border:0;outline:0;color:#fff;padding:0 22px;font:inherit;font-size:.95rem;min-width:0}
-.join input::placeholder{color:#5c616b}
-.join button{border-radius:60px;background:var(--silver);color:#000;font-family:var(--wide);font-size:.56rem;letter-spacing:.22em;padding:16px 22px;white-space:nowrap}
-.form-msg{margin-top:18px;font-size:.85rem;color:var(--gold);min-height:1.2em}
-
-footer{padding:60px clamp(20px,6vw,90px) 40px;border-top:1px solid rgba(255,255,255,.07)}
-.foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;align-items:flex-end}
-.foot .big{font-family:var(--cond);font-weight:700;font-size:clamp(3rem,11vw,10rem);letter-spacing:.02em;line-height:.85}
-.foot-meta{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:40px;font-family:var(--wide);font-size:.52rem;letter-spacing:.3em;color:#5c616b;text-transform:uppercase}
-
-.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,140px);z-index:160;background:rgba(15,15,18,.94);border:1px solid rgba(212,175,55,.4);backdrop-filter:blur(10px);padding:14px 22px;border-radius:40px;font-size:.85rem;transition:transform .5s cubic-bezier(.2,.8,.2,1);white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,120px);background:#000;color:#fff;font-size:11px;text-transform:uppercase;padding:12px 18px;z-index:90;transition:transform .4s cubic-bezier(.2,.8,.2,1);white-space:nowrap;max-width:94vw;overflow:hidden;text-overflow:ellipsis}
 .toast.show{transform:translate(-50%,0)}
-
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+.fade{opacity:0;transform:translateY(18px);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}
+.fade.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
-<canvas id="stars"></canvas>
-<div class="aurora"><i></i><i></i><i></i></div>
-<div class="grain"></div><div class="scan"></div>
-<div id="flashFx"></div>
 
-<div id="loader" aria-hidden="true">
-  <div style="text-align:center">
-    <div class="nf">N<b>F</b></div>
-    <p>NOITE FEROZ</p>
-    <div class="bar"><i></i></div>
-  </div>
+<div class="announce up" id="announce">
+  <div class="on">Pre-orders now open — Phantom Camo Drop 01</div>
+  <div>The Night Belongs To The Fearless</div>
+  <div>Limited units per colourway · Secure yours before the drop</div>
 </div>
 
-<header id="top">
-  <a href="#" class="brand" aria-label="Noite Feroz home">
-    <span class="nf">N<b>F</b></span>
-    <span>NOITE FEROZ<small>SOUTH AFRICA</small></span>
-  </a>
-  <nav id="nav">
-    <ul>
-      <li><a href="#drop">Phantom Camo</a></li>
-      <li><a href="#duffle">Duffle</a></li>
-      <li><a href="#lookbook">Lookbook</a></li>
-      <li><a href="#manifesto">Manifesto</a></li>
-      <li><a href="#vault">Alpha Vault</a></li>
-    </ul>
-    <button class="burger" aria-label="Menu"><span></span><span></span></button>
-  </nav>
-  <div class="nav-right">
-    <button class="flash-toggle" id="flashBtn" title="Simulate camera flash on the reflective pieces"><span class="dot"></span>FLASH</button>
-    <a href="#join" class="btn">Bag <span class="bag-count" id="bagCount">0</span></a>
+<header id="hdr" class="pad">
+  <div class="hbar">
+    <div class="hl">
+      <button class="menu-btn up" id="menuBtn">Menu</button>
+      <a href="#shop" data-f="all">New Arrivals</a>
+      <a href="#shop" data-f="camo">Phantom Camo</a>
+      <a href="#shop" data-f="acc">Accessories</a>
+      <a href="#vault">Alpha Vault</a>
+    </div>
+    <a href="#" class="logo" aria-label="Noite Feroz home">Noite Feroz</a>
+    <div class="hr">
+      <a href="#lookbook" class="hide-m">Lookbook</a>
+      <a href="#about" class="hide-m">About</a>
+      <button id="bagBtn">Pre-orders (<span id="bagCount">0</span>)</button>
+    </div>
   </div>
 </header>
 
+<nav id="menu" aria-label="Menu">
+  <button class="close" id="menuClose">Close</button>
+  <a href="#shop" data-f="all">New Arrivals</a>
+  <a href="#shop" data-f="camo">Phantom Camo</a>
+  <a href="#shop" data-f="acc">Accessories</a>
+  <a href="#duffle">Glow Phantom Duffle</a>
+  <a href="#lookbook">Lookbook</a>
+  <a href="#vault">Alpha Vault</a>
+  <a href="#about">About</a>
+</nav>
+
 <main>
-<!-- ================= HERO SLIDESHOW ================= -->
-<section class="hero" id="hero" aria-roledescription="carousel">
-
-  <article class="slide active">
-    <div class="bg" style="background-image:url(img/look-grey-boots.webp)"></div>
-    <div class="big-num">01</div>
-    <div class="copy">
-      <span class="eyebrow fade-up">Premium African Streetwear</span>
-      <h1><span class="reveal-line"><span>The Night</span></span><span class="reveal-line"><span class="holo-text">Belongs To</span></span><span class="reveal-line"><span>The Fearless.</span></span></h1>
-      <p class="lead fade-up">A streetwear house built on the spirit of the wolf, the energy of the night and African ambition. Not clothing first — a mindset.</p>
-      <div class="cta fade-up"><a href="#drop" class="btn solid">Shop The Drop</a><a href="#lookbook" class="btn">Lookbook</a></div>
-    </div>
-    <div class="visual"><div class="halo"></div><div class="frame glow-on" style="--ar:1122/1402"><img src="img/look-grey-boots.webp" alt="Noite Feroz Phantom Camo hoodie and stacked pants with reflective piping, red Alpha boots and duffle"></div></div>
-  </article>
-
-  <article class="slide">
-    <div class="bg" style="background-image:url(img/hero-red.webp)"></div>
-    <div class="big-num">02</div>
-    <div class="copy">
-      <span class="eyebrow fade-up" style="color:var(--red2)">Limited Capsule Release</span>
-      <h2><span class="reveal-line"><span>Phantom Camo</span></span><span class="reveal-line"><span class="red-text">Red Edition</span></span></h2>
-      <p class="lead fade-up">Red-and-black camo with glowing piping, the snarling wolf on the chest and "the night belongs to the fearless." across the back.</p>
-      <div class="price-tag fade-up">Hoodie R2,299 <em>· Stacked Pants R1,999</em></div>
-      <div class="cta fade-up"><button class="btn red" data-add="Phantom Camo Red Edition Hoodie">Add Hoodie</button><a href="#drop" class="btn">View Pieces</a></div>
-    </div>
-    <div class="visual"><div class="halo"></div><div class="frame glow-on" style="--ar:695/1130"><img src="img/hero-red.webp" alt="Phantom Camo Red Edition tracksuit on mannequin with glowing red piping"></div></div>
-  </article>
-
-  <article class="slide">
-    <div class="bg" style="background-image:url(img/p-full-grey.webp)"></div>
-    <div class="big-num">03</div>
-    <div class="copy">
-      <span class="eyebrow fade-up">See-Through Beanie Edition</span>
-      <h2><span class="reveal-line"><span>Phantom</span></span><span class="reveal-line"><span class="glow-text">Camo Grey</span></span></h2>
-      <p class="lead fade-up">450 GSM tone-on-tone camo, 3M reflective piping, stacked bell-bottom pants and the semi-transparent mesh beanie. Lights up under flash — tap <b>FLASH</b>.</p>
-      <div class="price-tag fade-up">Full set R3,999 <em>· Save R1,198</em></div>
-      <div class="cta fade-up"><button class="btn solid" data-add="Phantom Camo Full Set">Claim The Set</button><a href="#drop" class="btn">Details</a></div>
-    </div>
-    <div class="visual"><div class="halo"></div><div class="frame glow-on" style="--ar:632/1402"><img src="img/p-full-grey.webp" alt="Phantom Camo grey hoodie, stacked pants and see-through beanie"></div></div>
-  </article>
-
-  <article class="slide">
-    <div class="bg" style="background-image:url(img/p-duffle-red.webp)"></div>
-    <div class="big-num">04</div>
-    <div class="copy">
-      <span class="eyebrow fade-up" style="color:var(--red2)">Built For The Night</span>
-      <h2><span class="reveal-line"><span>Glow</span></span><span class="reveal-line"><span class="red-text">Phantom Duffle</span></span></h2>
-      <p class="lead fade-up">A see-through body with Tsonga patterns, a reflective glow trim, fur handles, the NF wolf emblem and the teddy wolf charm.</p>
-      <div class="price-tag fade-up">From R4,999 <em>· Four editions</em></div>
-      <div class="cta fade-up"><a href="#duffle" class="btn red">Choose Your Edition</a></div>
-    </div>
-    <div class="visual"><div class="halo"></div><div class="frame" style="--ar:1"><img src="img/p-duffle-red.webp" alt="Glow Phantom transparent duffle with red glow trim, fur handles and teddy wolf charm"></div></div>
-  </article>
-
-  <article class="slide">
-    <div class="bg" style="background-image:url(img/p-snow.webp)"></div>
-    <div class="big-num">05</div>
-    <div class="copy">
-      <span class="eyebrow fade-up">Alpha Pack · Wolf Instincts Collection</span>
-      <h2><span class="reveal-line"><span>Snow White</span></span><span class="reveal-line"><span class="holo-text">Edition</span></span></h2>
-      <p class="lead fade-up">Embossed Tsonga heritage detail, 3D wolf embroidery, reflective piping and a numbered interior label: 001/500, "Pack Member. Built In The Dark."</p>
-      <div class="cta fade-up"><a href="#vault" class="btn solid">Enter The Vault</a><a href="#join" class="btn">Get Notified</a></div>
-    </div>
-    <div class="visual"><div class="halo"></div><div class="frame" style="--ar:592/1200"><img src="img/p-snow.webp" alt="Noite Feroz Alpha Pack Snow White Edition tracksuit with duffle and shades"></div></div>
-  </article>
-
-  <article class="slide">
-    <div class="bg" style="background-image:url(img/p-red-tsonga.webp)"></div>
-    <div class="big-num">06</div>
-    <div class="copy">
-      <span class="eyebrow fade-up" style="color:var(--red2)">Built In The Dark</span>
-      <h2><span class="reveal-line"><span>Alpha Wolf</span></span><span class="reveal-line"><span class="red-text">Tracksuit</span></span></h2>
-      <p class="lead fade-up">Deep red with Tsonga pattern panels, a fur-trimmed hood and the NF crest — styled with the red Alpha boots and the matching duffle.</p>
-      <div class="price-tag fade-up">R18,000 – R45,000 <em>· Alpha Collection</em></div>
-      <div class="cta fade-up"><a href="#vault" class="btn red">Request Access</a></div>
-    </div>
-    <div class="visual"><div class="halo"></div><div class="frame" style="--ar:760/1402"><img src="img/p-red-tsonga.webp" alt="Red Alpha Wolf tracksuit with Tsonga pattern panels, red boots and duffle"></div></div>
-  </article>
-
+<section class="hero" id="hero">
+  <div class="slide on">
+    <figure><img src="img/look-grey-boots.webp" alt="Phantom Camo Grey full look"></figure>
+    <figure><img src="img/hero-red.webp" alt="Phantom Camo Red Edition"></figure>
+    <div class="cap"><h2>Phantom Camo — Drop 01</h2><p>Pre-orders open. Grey and Red editions — 450 GSM, reflective piping, stacked fit.</p><a href="#shop">Pre-order now</a></div>
+  </div>
+  <div class="slide">
+    <figure><img src="img/p-full-grey.webp" alt="See-Through Beanie Edition"></figure>
+    <figure><img src="img/p-hoodie-back.webp" alt="The night belongs to the fearless — hoodie back" style="object-position:center"></figure>
+    <div class="cap"><h2>The Night Belongs To The Fearless</h2><p>See-Through Beanie Edition.</p><a href="#shop">Discover</a></div>
+  </div>
+  <div class="slide">
+    <figure><img src="img/p-duffle-red.webp" alt="Glow Phantom Duffle" style="object-position:center"></figure>
+    <figure><img src="img/duffle-1.webp" alt="Glow Phantom Duffle Snow White Edition" style="object-position:center"></figure>
+    <div class="cap"><h2>Glow Phantom Duffle</h2><p>Four editions, from R4,999. Available to pre-order.</p><a href="#duffle">Pre-order the duffle</a></div>
+  </div>
+  <div class="slide">
+    <figure><img src="img/p-snow.webp" alt="Alpha Pack Snow White Edition"></figure>
+    <figure><img src="img/p-red-tsonga.webp" alt="Red Alpha Wolf Tracksuit"></figure>
+    <div class="cap"><h2>Alpha Vault — Coming Soon</h2><p>Snow White Edition and the Alpha Wolf Tracksuit. Numbered pieces.</p><a href="#vault">Explore</a></div>
+  </div>
   <div class="hero-ui">
-    <div class="dots" id="dots"></div>
-    <div class="arrows">
-      <button id="prev" aria-label="Previous slide"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <button id="next" aria-label="Next slide"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5l7 7-7 7"/></svg></button>
-    </div>
+    <button id="prev" aria-label="Previous">←</button><span id="count">01 / 04</span><button id="next" aria-label="Next">→</button>
+  </div>
+  <div class="progress"><i id="prog"></i></div>
+</section>
+
+<section id="shop" class="pad">
+  <div class="shead"><h3>Pre-order — Drop 01</h3><a href="#lookbook" class="u">View lookbook</a></div>
+  <div class="filters" id="filters">
+    <button class="on" data-f="all">All</button>
+    <button data-f="camo">Phantom Camo</button>
+    <button data-f="grey">Grey Edition</button>
+    <button data-f="red">Red Edition</button>
+    <button data-f="tees">T-Shirts</button>
+    <button data-f="acc">Accessories</button>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section class="edit fade" id="duffle">
+  <figure><img src="img/look-duffle-red.webp" alt="Glow Phantom Duffle detail views" loading="lazy"></figure>
+  <div class="txt">
+    <span class="kicker">Built in the dark. Designed to stand out.</span>
+    <h2>Glow Phantom Duffle</h2>
+    <p>A see-through body with a reflective glow trim, Tsonga patterns, fur handles, the exclusive NF wolf and the teddy wolf charm.</p>
+    <div class="spec"><div><span>Size</span>50×25×24 cm</div><div><span>Capacity</span>35L</div><div><span>Weight</span>1.4 kg</div><div><span>Body</span>PVC / vegan leather</div></div>
+  </div>
+</section>
+<section class="pad">
+  <div class="shead"><h3>Duffle Editions — Pre-order</h3><span class="up" style="font-size:11px;color:var(--mute)">4 Editions</span></div>
+  <div class="grid" id="dgrid"></div>
+</section>
+
+<section class="pad" style="margin-top:64px">
+  <div class="cats">
+    <a href="#shop" class="cat fade" data-f="grey"><img src="img/p-full-grey.webp" alt="" loading="lazy"><div class="l"><b>Phantom Camo Grey</b><span>Pre-order</span></div></a>
+    <a href="#shop" class="cat fade" data-f="red"><img src="img/hero-red.webp" alt="" loading="lazy" style="object-position:60% top"><div class="l"><b>Phantom Camo Red</b><span>Pre-order</span></div></a>
+    <a href="#vault" class="cat fade"><img src="img/p-snow.webp" alt="" loading="lazy"><div class="l"><b>Snow White Edition</b><span>Coming soon</span></div></a>
   </div>
 </section>
 
-<!-- ================= MARQUEE ================= -->
-<div class="sa-stripe" aria-hidden="true"><i style="background:#de3831"></i><i style="background:#ffb612"></i><i style="background:#007a4d"></i><i style="background:#2a52d6"></i><i style="background:#000"></i><i style="background:#fff;opacity:.6"></i></div>
-<div class="marquee" aria-hidden="true">
-  <div class="track" id="marq">
-    <span>Built In The Dark</span><span>Move In Silence</span><span>Lead The Pack</span><span>A Free Pack Fears No Horizon</span><span>Fear None</span><span>You Are The Wolf</span><span>Built In Africa. Worn Worldwide</span>
-  </div>
-</div>
-
-<!-- ================= DROP ================= -->
-<section class="sec" id="drop">
-  <div class="sec-head reveal">
-    <div><span class="eyebrow">Drop 01 · Limited Capsule</span><h2>Phantom <span class="g holo-text">Camo</span></h2></div>
-    <p>Grey and Red editions. 450 GSM French terry, 3M reflective piping, puff and silicone prints, and woven NF labels. 20–50 units per colourway — when it's gone, it's gone.</p>
-  </div>
-
-  <div class="grid">
-    <div class="card reveal"><div class="card-in">
-      <span class="tag">BESTSELLER</span>
-      <div class="art"><img src="img/p-hoodie-front.webp" alt="Phantom Camo grey hoodie front with glowing wolf" loading="lazy"><img class="alt" src="img/p-hoodie-back.webp" alt="" loading="lazy"><span class="hint">HOVER · BACK</span></div>
-      <div class="info">
-        <h3>Phantom Camo Hoodie<small>GREY EDITION</small></h3>
-        <div class="chips"><span>450 GSM</span><span>3M piping</span><span>Reflective quote back</span></div>
-        <div class="row"><span class="price">R2,299</span><button class="add" data-add="Phantom Camo Hoodie — Grey" aria-label="Add grey hoodie">+</button></div>
-      </div>
-    </div></div>
-
-    <div class="card reveal"><div class="card-in">
-      <span class="tag r">RED EDITION</span>
-      <div class="art"><img src="img/p-red-hoodie.webp" alt="Phantom Camo Red Edition hoodie with glowing wolf" loading="lazy"></div>
-      <div class="info">
-        <h3>Phantom Camo Hoodie<small>RED EDITION</small></h3>
-        <div class="chips"><span>Glow detail</span><span>Sleeve zip pocket</span><span>Premium print</span></div>
-        <div class="row"><span class="price">R2,299</span><button class="add" data-add="Phantom Camo Hoodie — Red" aria-label="Add red hoodie">+</button></div>
-      </div>
-    </div></div>
-
-    <div class="card reveal"><div class="card-in">
-      <span class="tag">STACKED FIT</span>
-      <div class="art"><img src="img/p-pants.webp" alt="Phantom Camo grey stacked pants with NOITE FEROZ thigh print" loading="lazy"></div>
-      <div class="info">
-        <h3>Phantom Stacked Pants<small>GREY EDITION</small></h3>
-        <div class="chips"><span>Bell opening</span><span>YKK zip</span><span>Reflective seams</span></div>
-        <div class="row"><span class="price">R1,999</span><button class="add" data-add="Phantom Stacked Pants — Grey" aria-label="Add grey pants">+</button></div>
-      </div>
-    </div></div>
-
-    <div class="card reveal"><div class="card-in">
-      <span class="tag r">RED EDITION</span>
-      <div class="art"><img src="img/p-red-pants.webp" alt="Phantom Camo Red Edition stacked pants with glowing piping" loading="lazy"></div>
-      <div class="info">
-        <h3>Phantom Stacked Pants<small>RED EDITION</small></h3>
-        <div class="chips"><span>Glow piping</span><span>NF thigh print</span><span>Extended inseam</span></div>
-        <div class="row"><span class="price">R1,999</span><button class="add" data-add="Phantom Stacked Pants — Red" aria-label="Add red pants">+</button></div>
-      </div>
-    </div></div>
-
-    <div class="card reveal"><div class="card-in">
-      <span class="tag">SEE-THROUGH</span>
-      <div class="art"><img src="img/p-beanie.webp" alt="Noite Feroz see-through mesh beanie" loading="lazy"></div>
-      <div class="info">
-        <h3>Mesh Beanie<small>SMOKE · SEE-THROUGH</small></h3>
-        <div class="chips"><span>Power mesh</span><span>Reflective print</span><span>NF metal badge</span></div>
-        <div class="row"><span class="price">R499</span><button class="add" data-add="See-Through Mesh Beanie" aria-label="Add beanie">+</button></div>
-      </div>
-    </div></div>
-
-    <div class="card reveal"><div class="card-in">
-      <span class="tag">HEAVYWEIGHT TEE</span>
-      <div class="art"><img src="img/p-tee.webp" alt="A Free Pack Fears No Horizon tee, front" loading="lazy"><img class="alt" src="img/p-tee-back.webp" alt="" loading="lazy"><span class="hint">HOVER · BACK</span></div>
-      <div class="info">
-        <h3>A Free Pack Tee<small>"A FREE PACK FEARS NO HORIZON."</small></h3>
-        <div class="chips"><span>Washed bone</span><span>Tsonga all-over</span><span>Wolf back print</span></div>
-        <div class="row"><span class="price">R899</span><button class="add" data-add="A Free Pack Tee" aria-label="Add tee">+</button></div>
-      </div>
-    </div></div>
-  </div>
-
-  <div class="set-banner reveal"><div>
-    <img src="img/p-full-grey.webp" alt="Full Phantom Camo set" loading="lazy">
-    <div><h3>The Full <span class="holo-text">Phantom</span> Set</h3><div class="save">TEE · HOODIE · STACKED PANTS — GREY OR RED</div></div>
-    <div class="p"><s>R5,197</s><span class="price" style="font-size:2rem">R3,999</span><button class="btn solid" data-add="Phantom Camo Full Set">Claim The Set</button></div>
-  </div></div>
-</section>
-
-<!-- ================= DUFFLE ================= -->
-<section class="sec" id="duffle">
-  <div class="duffle-hero">
-    <div class="frame reveal glow-on" style="--ar:1323/1189"><img src="img/look-duffle-red.webp" alt="Glow Phantom transparent duffle detail views" loading="lazy"></div>
-    <div class="reveal">
-      <span class="eyebrow" style="color:var(--red2)">Built In The Dark. Designed To Stand Out.</span>
-      <h2>Glow <span class="red-text">Phantom</span> Duffle</h2>
-      <p>A see-through structure with a reflective glow trim, Tsonga patterns, premium fur trim and the exclusive NF wolf, with the teddy wolf charm to finish it.</p>
-      <div class="specs">
-        <div><b>50 × 25 × 24</b><span>CM · L × H × W</span></div>
-        <div><b>35L</b><span>CAPACITY</span></div>
-        <div><b>1.4 KG</b><span>WEIGHT</span></div>
-        <div><b>PVC + Vegan Leather</b><span>FAUX FUR HANDLES</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="tiers">
-    <div class="card tier reveal"><div class="card-in">
-      <span class="tag">STANDARD</span>
-      <div class="art"><img src="img/duffle-0.webp" alt="Standard Edition Glow Phantom Duffle" loading="lazy"></div>
-      <div class="info">
-        <h3>Standard Edition<small>ICONIC DESIGN. EVERYDAY LUXURY.</small></h3>
-        <ul><li>Transparent premium body</li><li>White fur handles</li><li>NF wolf emblem &amp; teddy wolf charm</li><li>Tsonga pattern detailing</li><li>Adjustable strap, internal zip pocket</li></ul>
-        <div class="row"><span class="price">R4,999</span><button class="add" data-add="Glow Phantom Duffle — Standard" aria-label="Add Standard duffle">+</button></div>
-      </div>
-    </div></div>
-    <div class="card tier reveal"><div class="card-in">
-      <span class="tag">SNOW WHITE</span>
-      <div class="art"><img src="img/duffle-1.webp" alt="Snow White Edition Glow Phantom Duffle" loading="lazy"></div>
-      <div class="info">
-        <h3>Snow White Edition<small>EXCLUSIVE. CLEAN. ELITE.</small></h3>
-        <span class="inc">Everything in Standard, plus:</span>
-        <ul><li>Snow white premium trim</li><li>White chrome hardware</li><li>Pearl white Tsonga engraving</li><li>NF-print lining &amp; limited tag</li></ul>
-        <div class="row"><span class="price">R6,999</span><button class="add" data-add="Glow Phantom Duffle — Snow White" aria-label="Add Snow White duffle">+</button></div>
-      </div>
-    </div></div>
-    <div class="card tier reveal"><div class="card-in">
-      <span class="tag">1 OF 100</span>
-      <div class="art"><img src="img/duffle-2.webp" alt="Founder Edition Glow Phantom Duffle" loading="lazy"></div>
-      <div class="info">
-        <h3>Founder Edition<small>RARE. NUMBERED. COLLECTIBLE.</small></h3>
-        <span class="inc">Everything in Snow White, plus:</span>
-        <ul><li>Individually numbered (1–100)</li><li>Founder metal plate</li><li>NF dust bag + certificate</li><li>Priority access to future drops</li></ul>
-        <div class="row"><span class="price">R9,999</span><button class="add" data-add="Glow Phantom Duffle — Founder" aria-label="Add Founder duffle">+</button></div>
-      </div>
-    </div></div>
-    <div class="card tier reveal"><div class="card-in">
-      <span class="tag r">ULTRA LIMITED</span>
-      <div class="art"><img src="img/duffle-3.webp" alt="Legacy Edition Glow Phantom Duffle" loading="lazy"></div>
-      <div class="info">
-        <h3>Legacy Edition<small>THE HIGHEST TIER OF NOITE FEROZ.</small></h3>
-        <span class="inc">Everything in Founder, plus:</span>
-        <ul><li>Handcrafted, crystal embellished</li><li>24K white gold plated hardware</li><li>Leather luggage tag, VIP box</li><li>Lifetime warranty</li></ul>
-        <div class="row"><span class="price">R12,999+</span><button class="add" data-add="Glow Phantom Duffle — Legacy" aria-label="Add Legacy duffle">+</button></div>
-      </div>
-    </div></div>
-  </div>
-</section>
-
-<!-- ================= LOOKBOOK ================= -->
-<section class="sec lookbook" id="lookbook">
-  <div class="sec-head reveal">
-    <div><span class="eyebrow">Lookbook · Tap to open</span><h2>Built In <span class="g holo-text">The Dark</span></h2></div>
-    <div class="strip-nav"><div class="arrows"><button id="lbPrevStrip" aria-label="Scroll left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 5l-7 7 7 7"/></svg></button><button id="lbNextStrip" aria-label="Scroll right"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5l7 7-7 7"/></svg></button></div></div>
-  </div>
+<section id="lookbook" class="pad">
+  <div class="shead"><h3>Lookbook — Built In The Dark</h3><div style="display:flex;gap:16px;font-size:14px"><button id="sPrev" aria-label="Scroll left">←</button><button id="sNext" aria-label="Scroll right">→</button></div></div>
   <div class="strip" id="strip">
-    <figure class="look"><img src="img/look-grey-boots.webp" alt="Phantom Camo grey full look" loading="lazy"><figcaption>Phantom Camo · Grey</figcaption></figure>
-    <figure class="look"><img src="img/look-grey.webp" alt="See-Through Beanie Edition" loading="lazy"><figcaption>See-Through Beanie Edition</figcaption></figure>
-    <figure class="look"><img src="img/look-red.webp" alt="Phantom Camo Red Edition" loading="lazy"><figcaption>Phantom Camo · Red Edition</figcaption></figure>
-    <figure class="look"><img src="img/look-snow.webp" alt="Alpha Pack Snow White Edition" loading="lazy"><figcaption>Alpha Pack · Snow White</figcaption></figure>
-    <figure class="look"><img src="img/look-red-tsonga.webp" alt="Red Alpha Wolf tracksuit" loading="lazy"><figcaption>Alpha Wolf · Red</figcaption></figure>
-    <figure class="look"><img src="img/look-tee.webp" alt="A Free Pack Fears No Horizon tee" loading="lazy"><figcaption>A Free Pack Tee</figcaption></figure>
-    <figure class="look"><img src="img/look-duffle-red.webp" alt="Glow Phantom duffle" loading="lazy"><figcaption>Glow Phantom Duffle</figcaption></figure>
-    <figure class="look"><img src="img/look-duffle-prices.webp" alt="Glow Phantom duffle editions" loading="lazy"><figcaption>Duffle Editions</figcaption></figure>
-    <figure class="look"><img src="img/look-boots-black.webp" alt="Alpha boots in black" loading="lazy"><figcaption>Alpha Boots · Black</figcaption></figure>
-    <figure class="look"><img src="img/look-boots-red.webp" alt="Alpha boots in red" loading="lazy"><figcaption>Alpha Boots · Red</figcaption></figure>
+    <figure><img src="img/look-grey-boots.webp" alt="Phantom Camo Grey" loading="lazy"><figcaption>Phantom Camo · Grey</figcaption></figure>
+    <figure><img src="img/look-grey.webp" alt="See-Through Beanie Edition" loading="lazy"><figcaption>See-Through Beanie Edition</figcaption></figure>
+    <figure><img src="img/look-red.webp" alt="Phantom Camo Red Edition" loading="lazy"><figcaption>Phantom Camo · Red Edition</figcaption></figure>
+    <figure><img src="img/look-snow.webp" alt="Alpha Pack Snow White Edition" loading="lazy"><figcaption>Alpha Pack · Snow White</figcaption></figure>
+    <figure><img src="img/look-red-tsonga.webp" alt="Alpha Wolf Tracksuit Red" loading="lazy"><figcaption>Alpha Wolf · Red</figcaption></figure>
+    <figure><img src="img/look-tee.webp" alt="A Free Pack Tee" loading="lazy"><figcaption>A Free Pack Tee</figcaption></figure>
+    <figure><img src="img/look-duffle-red.webp" alt="Glow Phantom Duffle" loading="lazy"><figcaption>Glow Phantom Duffle</figcaption></figure>
+    <figure><img src="img/look-duffle-prices.webp" alt="Duffle editions" loading="lazy"><figcaption>Duffle Editions</figcaption></figure>
+    <figure><img src="img/look-boots-black.webp" alt="Alpha Boots Black" loading="lazy"><figcaption>Alpha Boots · Black</figcaption></figure>
+    <figure><img src="img/look-boots-red.webp" alt="Alpha Boots Red" loading="lazy"><figcaption>Alpha Boots · Red</figcaption></figure>
   </div>
 </section>
 
-<!-- ================= MANIFESTO ================= -->
-<section class="sec manifesto" id="manifesto">
-  <div class="wolf-glow reveal glow-on"><img src="img/p-wolf-glow.webp" alt="Noite Feroz glowing wolf print detail" loading="lazy"></div>
-  <span class="eyebrow reveal">What The Wolf Represents</span>
-  <blockquote class="reveal" style="margin-top:22px">Confident, not loud.<br><span class="holo-text">Premium, not flashy.</span></blockquote>
-  <p class="sub reveal">The wolf isn't a logo. It's a code. Noite Feroz exists to inspire fearless individuals to build their legacy through discipline, ambition and unwavering confidence. African, never stereotypical. <br><br><span class="dots-sa"><i></i><i></i><i></i><i></i></span></p>
-  <div class="traits reveal">
-    <span>Leadership</span><span>Loyalty</span><span>Discipline</span><span>Independence</span><span>Strength In Adversity</span><span>Protect The Pack</span><span>Relentless Ambition</span>
-  </div>
+<section id="vault" class="pad">
+  <div class="shead"><h3>Alpha Vault — Coming Soon</h3><a href="#footer" class="u">Get notified</a></div>
+  <div class="grid" id="vgrid"></div>
 </section>
 
-<!-- ================= PILLARS ================= -->
-<section class="sec" id="pillars" style="padding-top:0">
-  <div class="sec-head reveal">
-    <div><span class="eyebrow">The Pack Code</span><h2>Five <span class="g holo-text">Pillars</span></h2></div>
-    <p>For the 18–35 builders, creatives, entrepreneurs and night-movers who stand out without chasing trends.</p>
-  </div>
-  <div class="pillars reveal">
-    <div class="pillar"><span class="n">I</span><h3>Fearless</h3><p>Move in silence. Lead the pack.</p></div>
-    <div class="pillar"><span class="n">II</span><h3>Legacy</h3><p>Built today. Remembered forever.</p></div>
-    <div class="pillar"><span class="n">III</span><h3>Discipline</h3><p>Pain is temporary. Legacy is forever.</p></div>
-    <div class="pillar"><span class="n">IV</span><h3>Brotherhood</h3><p>One pack. One mission.</p></div>
-    <div class="pillar"><span class="n">V</span><h3>African Excellence</h3><p>Built in Africa. Made for the world.</p></div>
-  </div>
-</section>
-
-<!-- ================= VAULT ================= -->
-<section class="sec vault" id="vault">
-  <div class="sec-head reveal">
-    <div><span class="eyebrow" style="color:var(--red2)">Coming Soon · The Alpha Vault</span><h2>Signature <span class="g gold-text">Pieces</span></h2></div>
-    <p>The next chapter of the house. Numbered releases for those who've earned their place.</p>
-  </div>
-  <div class="vault-grid">
-    <div class="card v-item reveal"><div class="card-in">
-      <span class="tag r">🔒 LOCKED</span>
-      <div class="art"><img src="img/p-boots-red.webp" alt="Noite Feroz red Alpha boots" loading="lazy"><img class="alt" src="img/p-boots-black.webp" alt="" loading="lazy"><span class="hint">HOVER · BLACK</span></div>
-      <div class="info">
-        <h3>Alpha Boots<small>RED · BLACK</small></h3>
-        <p>Premium leather, Tsonga embossing, a chrome heart-plated sole, a furry collar, and handcuff and teddy charms.</p>
-        <div class="row"><span class="price">Price on request</span></div>
-      </div>
-    </div></div>
-    <div class="card v-item reveal"><div class="card-in">
-      <span class="tag">🔒 LOCKED</span>
-      <div class="art"><img src="img/p-snow.webp" alt="Alpha Pack Snow White Edition" loading="lazy"></div>
-      <div class="info">
-        <h3>Alpha Pack<small>SNOW WHITE EDITION · 001/500</small></h3>
-        <p>An embossed tracksuit, Phantom Vision shades, Alpha boots and the Snow White duffle. Numbered pieces, never made again.</p>
-        <div class="row"><span class="price">Price on request</span></div>
-      </div>
-    </div></div>
-    <div class="card v-item reveal"><div class="card-in">
-      <span class="tag r">🔒 LOCKED</span>
-      <div class="art"><img src="img/p-red-tsonga.webp" alt="Red Alpha Wolf Tracksuit" loading="lazy"></div>
-      <div class="info">
-        <h3>Alpha Wolf Tracksuit<small>RED · TSONGA PANELS</small></h3>
-        <p>Premium fabrics, Tsonga pattern panels, a fur-trimmed hood and wolf crest embroidery.</p>
-        <div class="row"><span class="price">R18,000 – R45,000</span></div>
-      </div>
-    </div></div>
-  </div>
-  <div class="card legacy reveal"><div class="card-in">
-    <span class="nf gold-text">N<b>F</b></span>
-    <div><span class="eyebrow">Numbered 1 of 1</span><h3 style="margin-top:12px">Legacy <span class="gold-text">Alpha Wolf</span></h3><p>24K solid gold. Custom-cut VVS diamonds. White glowing wolf eyes. Only one exists.</p></div>
-    <a href="#join" class="btn red">Request Access</a>
-  </div></div>
-</section>
-
-<!-- ================= JOIN ================= -->
-<section class="sec join" id="join">
-  <span class="eyebrow reveal">Pre-orders · Drop alerts · Vault access</span>
-  <h2 class="reveal">Earn Your <span class="holo-text">Place</span></h2>
-  <p class="reveal">The pack hears first. Get notified before Phantom Camo pre-orders open and before every limited capsule.</p>
-  <form id="joinForm" class="reveal" novalidate>
-    <div><input type="email" id="email" placeholder="Your email" aria-label="Email" required><button type="submit">Join The Pack</button></div>
-  </form>
-  <div class="form-msg" id="formMsg" role="status"></div>
+<section id="about" class="manifesto pad">
+  <div class="logo-b fade">The Night Belongs<br>To The Fearless</div>
+  <p class="fade">Noite Feroz is a premium South African streetwear house inspired by the spirit of the wolf, the energy of the night and African ambition. Confident, not loud. Premium, not flashy. Built for people who move with purpose and create their own legacy.</p>
+  <div class="vals fade"><span>Fearless</span><span>Legacy</span><span>Discipline</span><span>Brotherhood</span><span>African Excellence</span></div>
+  <div class="sa"><i style="background:#de3831"></i><i style="background:#ffb612"></i><i style="background:#007a4d"></i><i style="background:#2a52d6"></i></div>
 </section>
 </main>
 
-<footer>
-  <div class="foot">
-    <div><div class="big holo-text">NOITE<br>FEROZ</div><div style="margin-top:14px;font-family:var(--wide);font-size:.6rem;letter-spacing:.4em">SOUTH AFRICA &nbsp;<span class="dots-sa"><i></i><i></i><i></i><i></i></span></div></div>
-    <div style="max-width:300px;color:#8d929c;line-height:1.8;font-size:.9rem">The Night Belongs To The Fearless.<br>You Are The Wolf.<br>Built In Africa. Worn Worldwide.</div>
+<footer id="footer" class="pad">
+  <div class="fcols">
+    <div class="news">
+      <h4>Join The Pack</h4>
+      <p>Hear first when new pre-orders open, and about limited capsules and Alpha Vault releases.</p>
+      <form id="news"><input type="email" id="email" placeholder="Email address" aria-label="Email"><button type="submit">Subscribe</button></form>
+      <div class="msg" id="newsMsg" role="status"></div>
+    </div>
+    <div><h4>Shop</h4><a href="#shop" data-f="camo">Phantom Camo</a><a href="#shop" data-f="tees">T-Shirts</a><a href="#shop" data-f="acc">Accessories</a><a href="#duffle">Duffle</a><a href="#vault">Alpha Vault</a></div>
+    <div><h4>The House</h4><a href="#about">About</a><a href="#lookbook">Lookbook</a><a href="#about">Manifesto</a></div>
+    <div><h4>Follow</h4><a href="#">Instagram</a><a href="#">TikTok</a></div>
   </div>
-  <div class="foot-meta"><span>© 2026 Noite Feroz</span><span>Move In Silence. Lead The Pack.</span><span>Built In The Dark</span></div>
+  <div class="fbig">Noite Feroz</div>
+  <div class="fmeta"><span>© 2026 Noite Feroz · South Africa</span><span>Move in silence. Lead the pack.</span><span>Built in Africa. Worn worldwide.</span></div>
 </footer>
 
-<div id="lightbox" role="dialog" aria-modal="true" aria-label="Lookbook image">
-  <span id="lbCount"></span><button class="x" id="lbClose" aria-label="Close">×</button>
+<div id="scrim"></div>
+<aside id="bag" aria-label="Shopping bag">
+  <div class="bhead"><span>Your Pre-orders (<span id="bagCount2">0</span>)</span><button id="bagClose" class="up">Close</button></div>
+  <div class="bitems" id="bitems"></div>
+  <div class="bfoot"><div class="row"><span>Subtotal</span><span id="subtotal">R0</span></div><button class="co" id="checkout">Place Pre-order</button><p class="pnote">Pre-order items are made in limited runs and ship after the drop.</p><div class="note" id="coNote"></div></div>
+</aside>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo">
+  <span id="lbCount"></span><button class="x" id="lbClose">Close ×</button>
   <img id="lbImg" alt="">
-  <div class="lb-ui arrows"><button id="lbPrev" aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 5l-7 7 7 7"/></svg></button><span id="lbCap"></span><button id="lbNext" aria-label="Next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5l7 7-7 7"/></svg></button></div>
+  <div class="lbui"><button id="lbPrev" aria-label="Previous">←</button><span id="lbCap"></span><button id="lbNext" aria-label="Next">→</button></div>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
 (()=>{
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const APP=['XS','S','M','L','XL'],ONE=['One size'];
+const products=[
+ {n:'Phantom Camo Hoodie',c:'Grey Edition',p:2299,img:'p-hoodie-front',alt:'p-hoodie-back',b:'New',tags:'camo grey',s:APP},
+ {n:'Phantom Camo Hoodie',c:'Red Edition',p:2299,img:'p-red-hoodie',b:'Red Edition',r:1,tags:'camo red',s:APP},
+ {n:'Phantom Stacked Pants',c:'Grey Edition',p:1999,img:'p-pants',tags:'camo grey',s:APP},
+ {n:'Phantom Stacked Pants',c:'Red Edition',p:1999,img:'p-red-pants',b:'Red Edition',r:1,tags:'camo red',s:APP},
+ {n:'Phantom Camo Full Set',c:'Tee · Hoodie · Stacked Pants',p:3999,img:'p-full-grey',b:'Save R1,198',tags:'camo grey red',s:APP},
+ {n:'A Free Pack Tee',c:'Washed Bone',p:899,img:'p-tee',alt:'p-tee-back',b:'New',tags:'tees',s:APP},
+ {n:'See-Through Mesh Beanie',c:'Smoke Black',p:499,img:'p-beanie',tags:'acc grey',s:ONE},
+ {n:'Glow Phantom Duffle',c:'Standard Edition',p:4999,img:'p-duffle-red',alt:'duffle-0',tags:'acc',s:ONE},
+];
+const duffles=[
+ {n:'Glow Phantom Duffle',c:'Standard Edition',p:4999,img:'duffle-0',b:'Standard',s:ONE},
+ {n:'Glow Phantom Duffle',c:'Snow White · Limited Release',p:6999,img:'duffle-1',b:'Limited',s:ONE},
+ {n:'Glow Phantom Duffle',c:'Founder · 1 of 100',p:9999,img:'duffle-2',b:'Numbered',s:ONE},
+ {n:'Glow Phantom Duffle',c:'Legacy · Ultra Limited',p:12999,plus:1,img:'duffle-3',b:'Legacy',r:1,s:ONE},
+];
+const vault=[
+ {n:'Alpha Boots',c:'Red',img:'p-boots-red',b:'Coming soon',r:1,txt:'Price on request'},
+ {n:'Alpha Boots',c:'Black',img:'p-boots-black',b:'Coming soon',txt:'Price on request'},
+ {n:'Alpha Pack',c:'Snow White Edition · 001/500',img:'p-snow',b:'Coming soon',txt:'Price on request'},
+ {n:'Alpha Wolf Tracksuit',c:'Red · Tsonga Panels',img:'p-red-tsonga',b:'Coming soon',r:1,txt:'R18,000 – R45,000'},
+];
+const R=v=>'R'+String(v).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+function card(x,i,g){
+  const btns=x.s?x.s.map(s=>`<button data-g="${g}" data-i="${i}" data-s="${s}">${s}</button>`).join(''):'';
+  return `<div class="prod fade" data-tags="${x.tags||''}">
+    <div class="pimg" data-g="${g}" data-i="${i}">${x.s?'<span class="badge po-b">Pre-order</span>':''}${x.b?`<span class="badge b2${x.r?' r':''}">${x.b}</span>`:''}
+      <img src="img/${x.img}.webp" alt="${x.n} — ${x.c}" loading="lazy">${x.alt?`<img class="alt" src="img/${x.alt}.webp" alt="${x.n} — alternate view" loading="lazy">`:''}
+      ${x.s?`<div class="sizes"><span class="lbl">Pre-order</span>${btns}</div>`:''}</div>
+    <div class="pinfo"><span class="n">${x.n}</span><span class="c">${x.c}</span><span class="p">${x.p?R(x.p)+(x.plus?'+':''):x.txt}${x.s?' <span class="po">· Pre-order</span>':''}</span>${x.s?`<div class="msizes">${btns}</div>`:''}</div></div>`}
+const G={p:products,d:duffles,v:vault};
+$('#grid').innerHTML=products.map((x,i)=>card(x,i,'p')).join('');
+$('#dgrid').innerHTML=duffles.map((x,i)=>card(x,i,'d')).join('');
+$('#vgrid').innerHTML=vault.map((x,i)=>card(x,i,'v')).join('');
 
-/* loader */
-const hideLoader=()=>$('#loader').classList.add('done');
-addEventListener('load',()=>setTimeout(hideLoader,1400));
-setTimeout(hideLoader,3500);
-
-/* starfield */
-const cv=$('#stars'),cx=cv.getContext('2d');let W,H,stars=[],shoot=null;const dpr=Math.min(devicePixelRatio||1,2);
-function size(){W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;
-  const n=Math.round(innerWidth*innerHeight/5500);
-  stars=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:(Math.random()*1.2+.2)*dpr,p:Math.random()*6.28,s:.005+Math.random()*.02,h:Math.random()}));}
-size();addEventListener('resize',size);
-let sy0=0;addEventListener('scroll',()=>sy0=scrollY,{passive:true});
-(function frame(){
-  cx.clearRect(0,0,W,H);
-  for(const s of stars){s.p+=s.s;const a=.35+.65*Math.abs(Math.sin(s.p));
-    let y=(s.y-sy0*dpr*.05*s.r)%H;if(y<0)y+=H;
-    cx.fillStyle=s.h>.93?`rgba(245,215,122,${a})`:s.h>.88?`rgba(255,90,120,${a})`:`rgba(220,226,235,${a})`;
-    cx.beginPath();cx.arc(s.x,y,s.r,0,6.28);cx.fill();}
-  if(!shoot&&Math.random()<.004)shoot={x:Math.random()*W*.8,y:Math.random()*H*.4,l:0};
-  if(shoot){shoot.l+=14*dpr;const x1=shoot.x+shoot.l,y1=shoot.y+shoot.l*.4,g=cx.createLinearGradient(x1,y1,x1-120*dpr,y1-48*dpr);
-    g.addColorStop(0,'rgba(255,255,255,.9)');g.addColorStop(1,'rgba(255,255,255,0)');cx.strokeStyle=g;cx.lineWidth=1.2*dpr;
-    cx.beginPath();cx.moveTo(x1,y1);cx.lineTo(x1-120*dpr,y1-48*dpr);cx.stroke();if(shoot.l>600*dpr)shoot=null;}
-  requestAnimationFrame(frame);})();
-
-/* header */
-addEventListener('scroll',()=>$('#top').classList.toggle('scrolled',scrollY>40),{passive:true});
-const nav=$('#nav');$('.burger').onclick=()=>nav.classList.toggle('open');
-$$('#nav a').forEach(a=>a.onclick=()=>nav.classList.remove('open'));
+const an=$$('#announce div');let ai=0;setInterval(()=>{an[ai].classList.remove('on');ai=(ai+1)%an.length;an[ai].classList.add('on')},3800);
+addEventListener('scroll',()=>$('#hdr').classList.toggle('scrolled',scrollY>10),{passive:true});
+$('#menuBtn').onclick=()=>$('#menu').classList.add('open');
+$('#menuClose').onclick=()=>$('#menu').classList.remove('open');
+$$('#menu a').forEach(a=>a.addEventListener('click',()=>$('#menu').classList.remove('open')));
 
 /* slideshow */
-const hero=$('#hero'),slides=$$('.slide'),dots=$('#dots');let cur=0,timer;const DUR=6500;
-slides.forEach((_,i)=>{const b=document.createElement('button');b.innerHTML=String(i+1).padStart(2,'0')+'<i></i>';b.setAttribute('aria-label','Slide '+(i+1));b.onclick=()=>go(i);dots.appendChild(b)});
-dots.style.setProperty('--dur',DUR+'ms');
-function go(i){slides[cur].classList.remove('active');cur=(i+slides.length)%slides.length;slides[cur].classList.add('active');
-  $$('#dots button').forEach((b,j)=>{b.classList.remove('on');void b.offsetWidth;if(j===cur)b.classList.add('on')});
-  clearTimeout(timer);timer=setTimeout(()=>go(cur+1),DUR);}
-$('#next').onclick=()=>go(cur+1);$('#prev').onclick=()=>go(cur-1);
-go(0);
-addEventListener('keydown',e=>{if($('#lightbox').classList.contains('open'))return;if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
-let tx=null,ty=null;
-hero.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
-hero.addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
-  if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy))go(cur+(dx<0?1:-1));tx=null},{passive:true});
-document.addEventListener('visibilitychange',()=>{if(document.hidden)clearTimeout(timer);else timer=setTimeout(()=>go(cur+1),DUR)});
-hero.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;
-  const f=$('.slide.active .frame');if(f)f.style.transform=`rotateY(${x*14}deg) rotateX(${-y*10}deg)`});
-hero.addEventListener('pointerleave',()=>$$('.frame').forEach(f=>f.style.transform=''));
+const slides=$$('.slide'),hero=$('#hero');let cur=0,timer;const DUR=6000;hero.style.setProperty('--dur',DUR+'ms');
+function go(i){slides[cur].classList.remove('on');cur=(i+slides.length)%slides.length;slides[cur].classList.add('on');
+  $('#count').textContent=String(cur+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+  const p=$('#prog');p.classList.remove('run');void p.offsetWidth;p.classList.add('run');clearTimeout(timer);timer=setTimeout(()=>go(cur+1),DUR)}
+$('#next').onclick=()=>go(cur+1);$('#prev').onclick=()=>go(cur-1);go(0);
+let tx=null,ty=0,swiped=false;
+hero.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;swiped=false},{passive:true});
+hero.addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){swiped=true;go(cur+(dx<0?1:-1))}tx=null},{passive:true});
+document.addEventListener('visibilitychange',()=>{document.hidden?clearTimeout(timer):go(cur)});
 
-/* holo tilt cards */
-$$('.card').forEach(c=>{
-  c.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
-    c.classList.add('tilting');c.style.setProperty('--mx',px*100+'%');c.style.setProperty('--my',py*100+'%');
-    c.style.setProperty('--ry',((px-.5)*12)+'deg');c.style.setProperty('--rx',((.5-py)*10)+'deg')});
-  c.addEventListener('pointerleave',()=>{c.classList.remove('tilting');c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')});
-});
-if(matchMedia('(hover:none)').matches)$$('.hint').forEach(h=>h.textContent='TAP · FRONT & BACK');
+/* filters */
+function filter(f){$$('#filters button').forEach(b=>b.classList.toggle('on',b.dataset.f===f));
+  $$('#grid .prod').forEach(p=>{p.classList.toggle('hide',f!=='all'&&!p.dataset.tags.split(' ').includes(f));p.classList.add('in')})}
+$$('[data-f]').forEach(b=>b.addEventListener('click',()=>filter(b.dataset.f)));
 
-/* reveal */
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-$$('.reveal').forEach(el=>io.observe(el));
-
-/* marquee */
-const m=$('#marq');m.innerHTML+=m.innerHTML;
-
-/* flash */
-$('#flashBtn').onclick=()=>{const fx=$('#flashFx');fx.classList.remove('go');void fx.offsetWidth;fx.classList.add('go');
-  document.body.classList.toggle('flash');toast(document.body.classList.contains('flash')?'📸 Flash on — reflective pieces lit up':'Flash off')};
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+$$('.fade').forEach(el=>io.observe(el));
 
 /* bag */
-let bag=0;
-$$('[data-add]').forEach(b=>b.addEventListener('click',()=>{bag++;$('#bagCount').textContent=bag;
-  if(b.classList.contains('add')){b.classList.add('added');b.textContent='✓';setTimeout(()=>{b.classList.remove('added');b.textContent='+'},1600)}
-  toast('🐺 '+b.dataset.add+' added')}));
-let tt;function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400)}
+let bag=[];try{bag=JSON.parse(localStorage.getItem('nf-bag')||'[]')}catch(e){}
+const saveBag=()=>{try{localStorage.setItem('nf-bag',JSON.stringify(bag))}catch(e){}};
+function renderBag(){const n=bag.length;$('#bagCount').textContent=n;$('#bagCount2').textContent=n;
+  $('#bitems').innerHTML=n?bag.map((b,i)=>`<div class="bitem"><img src="img/${b.img}.webp" alt=""><div>${b.n}<div class="m">${b.c}</div><div class="m">Size: ${b.s}</div><div style="margin-top:8px">${R(b.p)}</div></div><button data-rm="${i}">Remove</button></div>`).join(''):'<div class="bempty">No pre-orders yet</div>';
+  $('#subtotal').textContent=R(bag.reduce((a,b)=>a+b.p,0));$('#coNote').textContent=''}
+const openBag=()=>{$('#bag').classList.add('on');$('#scrim').classList.add('on')};
+const closeBag=()=>{$('#bag').classList.remove('on');$('#scrim').classList.remove('on')};
+$('#bagBtn').onclick=openBag;$('#bagClose').onclick=closeBag;$('#scrim').onclick=closeBag;
+$('#bitems').addEventListener('click',e=>{const r=e.target.dataset.rm;if(r!==undefined){bag.splice(+r,1);saveBag();renderBag()}});
+$('#checkout').onclick=()=>{$('#coNote').textContent=bag.length?'Pre-order payments aren’t connected yet — this button will take customers to payment once a store is linked.':'Choose a size to pre-order first.'};
+renderBag();
+let tt;const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200)};
 
-/* lookbook strip + plain-photo lightbox */
-const strip=$('#strip');
-$('#lbNextStrip').onclick=()=>strip.scrollBy({left:strip.clientWidth*.7,behavior:'smooth'});
-$('#lbPrevStrip').onclick=()=>strip.scrollBy({left:-strip.clientWidth*.7,behavior:'smooth'});
+/* plain lightbox */
 const lb=$('#lightbox');let set=[],li=0;
 function show(){const it=set[li];$('#lbImg').src=it.src;$('#lbImg').alt=it.alt;$('#lbCap').textContent=it.cap;
-  $('#lbCount').textContent=set.length>1?`${li+1} / ${set.length}`:'';
-  $$('#lightbox .lb-ui button').forEach(b=>b.style.visibility=set.length>1?'visible':'hidden')}
+  $('#lbCount').textContent=set.length>1?`${li+1} / ${set.length}`:'';$$('#lightbox .lbui button').forEach(b=>b.style.visibility=set.length>1?'visible':'hidden')}
 function openLb(items,i){set=items;li=i;show();lb.classList.add('open');clearTimeout(timer);document.body.style.overflow='hidden'}
 function closeLb(){lb.classList.remove('open');document.body.style.overflow='';timer=setTimeout(()=>go(cur+1),DUR)}
-function step(d){if(set.length<2)return;li=(li+d+set.length)%set.length;show()}
-const item=img=>({src:img.currentSrc||img.src,alt:img.alt,cap:(img.closest('figure')?.querySelector('figcaption')?.textContent)||img.closest('.card')?.querySelector('h3')?.firstChild.textContent.trim()||img.alt||''});
-/* lookbook: whole strip is one gallery */
-const looks=$$('.look img');looks.forEach((im,i)=>im.closest('.look').onclick=()=>openLb(looks.map(item),i));
-/* product cards: front + back */
-$$('.card .art').forEach(a=>{a.classList.add('zoomable');a.addEventListener('click',()=>{const ims=[...a.querySelectorAll('img')];
-  const back=ims.find(x=>x.classList.contains('alt'));const startBack=back&&matchMedia('(hover:hover)').matches&&a.matches(':hover')&&getComputedStyle(back).opacity>.5;
-  openLb(ims.map(x=>{const it=item(x);if(x.classList.contains('alt'))it.cap+=' · Back';return it}),startBack?1:0)})});
-/* hero frames, duffle frame, wolf, set banner */
-$$('.frame img, .wolf-glow img, .set-banner img').forEach(im=>{const host=im.closest('.frame,.wolf-glow')||im;host.classList.add('zoomable');
-  host.addEventListener('click',()=>openLb([item(im)],0))});
-$('#lbClose').onclick=closeLb;
-lb.addEventListener('click',e=>{if(e.target===lb)closeLb()});
+const step=d=>{if(set.length<2)return;li=(li+d+set.length)%set.length;show()};
+const item=(img,cap)=>({src:img.currentSrc||img.src,alt:img.alt,cap:cap||img.alt});
+
+document.addEventListener('click',e=>{
+  const sb=e.target.closest('.sizes button,.msizes button');
+  if(sb){const x=G[sb.dataset.g][+sb.dataset.i];bag.push({n:x.n,c:x.c,p:x.p,img:x.img,s:sb.dataset.s});saveBag();renderBag();toast('Pre-ordered — '+x.n+' · '+sb.dataset.s);openBag();return}
+  const p=e.target.closest('.pimg');
+  if(p&&!e.target.closest('.sizes')){const x=G[p.dataset.g][+p.dataset.i];openLb([...p.querySelectorAll('img')].map((im,k)=>item(im,x.n+' — '+x.c+(k?' · Alternate view':''))),0)}
+});
+$$('#strip figure').forEach((f,i,all)=>f.onclick=()=>openLb(all.map(x=>item(x.querySelector('img'),x.querySelector('figcaption').textContent)),i));
+$$('.slide figure').forEach(f=>f.addEventListener('click',()=>{if(swiped)return;const ims=[...f.closest('.slide').querySelectorAll('img')].filter(im=>im.offsetParent);openLb(ims.map(im=>item(im)),Math.max(0,ims.indexOf(f.querySelector('img'))))}));
+$('.edit figure').onclick=e=>openLb([item(e.currentTarget.querySelector('img'),'Glow Phantom Duffle')],0);
+$('#sNext').onclick=()=>$('#strip').scrollBy({left:$('#strip').clientWidth*.7,behavior:'smooth'});
+$('#sPrev').onclick=()=>$('#strip').scrollBy({left:-$('#strip').clientWidth*.7,behavior:'smooth'});
+$('#lbClose').onclick=closeLb;lb.addEventListener('click',e=>{if(e.target===lb)closeLb()});
 $('#lbNext').onclick=()=>step(1);$('#lbPrev').onclick=()=>step(-1);
-addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1)});
+addEventListener('keydown',e=>{if(lb.classList.contains('open')){if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1);return}
+  if(e.key==='Escape')closeBag();if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
 let lx=null;lb.addEventListener('touchstart',e=>lx=e.touches[0].clientX,{passive:true});
 lb.addEventListener('touchend',e=>{if(lx===null)return;const d=e.changedTouches[0].clientX-lx;if(Math.abs(d)>50)step(d<0?1:-1);lx=null},{passive:true});
 
-/* join form — not connected to a mailing list yet */
-$('#joinForm').addEventListener('submit',e=>{e.preventDefault();const v=$('#email').value.trim(),msg=$('#formMsg');
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){msg.textContent='Enter a valid email to join the pack.';return}
-  msg.textContent='Sign-ups open at launch — this preview isn’t connected to a mailing list yet.'});
+$('#news').addEventListener('submit',e=>{e.preventDefault();const v=$('#email').value.trim();
+  $('#newsMsg').textContent=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?'Sign-ups open at launch — this site isn’t connected to a mailing list yet.':'Enter a valid email address.'});
 })();
 </script>
 </body>

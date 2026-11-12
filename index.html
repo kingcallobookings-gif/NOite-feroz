@@ -60,6 +60,9 @@ header.scrolled{border-bottom-color:var(--line)}
 .slide figure{position:relative;overflow:hidden;cursor:zoom-in}
 .slide img{height:100%;object-fit:cover;object-position:center top;transform:scale(1.06);transition:transform 7s ease-out}
 .slide.on img{transform:scale(1)}
+.slide video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+.sound{position:absolute;top:16px;right:16px;z-index:4;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.04em;background:rgba(0,0,0,.45);padding:8px 12px;backdrop-filter:blur(6px)}
+.film-tag{position:absolute;top:16px;left:16px;z-index:4;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.04em;background:var(--red);padding:5px 8px}
 .slide .cap{position:absolute;left:clamp(14px,2.2vw,32px);bottom:42px;color:#fff;z-index:2;text-shadow:0 1px 14px rgba(0,0,0,.5)}
 .slide .cap h2{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
 .slide .cap p{font-size:12px;margin-bottom:12px;max-width:340px;opacity:.9}
@@ -183,7 +186,8 @@ footer{border-top:1px solid var(--line);padding-top:48px;padding-bottom:28px}
 
 #lightbox{position:fixed;inset:0;z-index:100;background:#000;display:grid;place-items:center;opacity:0;visibility:hidden;transition:.3s}
 #lightbox.open{opacity:1;visibility:visible}
-#lightbox img{max-width:96vw;max-height:84vh;width:auto;object-fit:contain}
+#lightbox img,#lightbox video{max-width:96vw;max-height:84vh;width:auto;object-fit:contain}
+#lightbox video{background:#000}
 #lightbox .x{position:absolute;top:16px;right:16px;color:#fff;font-size:11px;text-transform:uppercase;padding:10px}
 #lbCount{position:absolute;top:26px;left:20px;color:#999;font-size:11px}
 #lightbox .lbui{position:absolute;left:0;right:0;bottom:20px;display:flex;justify-content:center;align-items:center;gap:18px;color:#fff}
@@ -237,13 +241,18 @@ footer{border-top:1px solid var(--line);padding-top:48px;padding-bottom:28px}
 <main>
 <section class="hero" id="hero">
   <div class="slide on">
+    <figure class="vfig"><video id="heroVid" src="video/campaign.mp4" poster="video/campaign-poster.webp" muted playsinline autoplay preload="auto" aria-label="Noite Feroz Phantom Camo campaign film"></video><span class="film-tag">Campaign Film</span><button class="sound" id="sound" aria-pressed="false">Sound off</button></figure>
+    <figure><img src="img/p-hoodie-back.webp" alt="The night belongs to the fearless — hoodie back" style="object-position:center"></figure>
+    <div class="cap"><h2>Phantom Camo — The Film</h2><p>The night belongs to the fearless. Pre-orders open now.</p><a href="#" id="watch">Watch the film</a></div>
+  </div>
+  <div class="slide">
     <figure><img src="img/look-grey-boots.webp" alt="Phantom Camo Grey full look"></figure>
     <figure><img src="img/hero-red.webp" alt="Phantom Camo Red Edition"></figure>
     <div class="cap"><h2>Phantom Camo — Drop 01</h2><p>Pre-orders open. Grey and Red editions — 450 GSM, reflective piping, stacked fit.</p><a href="#shop">Pre-order now</a></div>
   </div>
   <div class="slide">
     <figure><img src="img/p-full-grey.webp" alt="See-Through Beanie Edition"></figure>
-    <figure><img src="img/p-hoodie-back.webp" alt="The night belongs to the fearless — hoodie back" style="object-position:center"></figure>
+    <figure><img src="img/p-beanie.webp" alt="See-through mesh beanie" style="object-position:center"></figure>
     <div class="cap"><h2>The Night Belongs To The Fearless</h2><p>See-Through Beanie Edition.</p><a href="#shop">Discover</a></div>
   </div>
   <div class="slide">
@@ -257,7 +266,7 @@ footer{border-top:1px solid var(--line);padding-top:48px;padding-bottom:28px}
     <div class="cap"><h2>Alpha Vault — Coming Soon</h2><p>Snow White Edition and the Alpha Wolf Tracksuit. Numbered pieces.</p><a href="#vault">Explore</a></div>
   </div>
   <div class="hero-ui">
-    <button id="prev" aria-label="Previous">←</button><span id="count">01 / 04</span><button id="next" aria-label="Next">→</button>
+    <button id="prev" aria-label="Previous">←</button><span id="count">01 / 05</span><button id="next" aria-label="Next">→</button>
   </div>
   <div class="progress"><i id="prog"></i></div>
 </section>
@@ -351,7 +360,7 @@ footer{border-top:1px solid var(--line);padding-top:48px;padding-bottom:28px}
 
 <div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo">
   <span id="lbCount"></span><button class="x" id="lbClose">Close ×</button>
-  <img id="lbImg" alt="">
+  <img id="lbImg" alt=""><video id="lbVid" controls playsinline preload="none" hidden></video>
   <div class="lbui"><button id="lbPrev" aria-label="Previous">←</button><span id="lbCap"></span><button id="lbNext" aria-label="Next">→</button></div>
 </div>
 <div class="toast" id="toast"></div>
@@ -403,14 +412,22 @@ $$('#menu a').forEach(a=>a.addEventListener('click',()=>$('#menu').classList.rem
 
 /* slideshow */
 const slides=$$('.slide'),hero=$('#hero');let cur=0,timer;const DUR=6000;hero.style.setProperty('--dur',DUR+'ms');
+const hv=$('#heroVid');
 function go(i){slides[cur].classList.remove('on');cur=(i+slides.length)%slides.length;slides[cur].classList.add('on');
   $('#count').textContent=String(cur+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
-  const p=$('#prog');p.classList.remove('run');void p.offsetWidth;p.classList.add('run');clearTimeout(timer);timer=setTimeout(()=>go(cur+1),DUR)}
+  const v=slides[cur].querySelector('video');$$('.slide video').forEach(x=>{if(x!==v)x.pause()});
+  let d=DUR;if(v){try{v.currentTime=0}catch(e){}v.play().catch(()=>{});d=Math.round((isFinite(v.duration)&&v.duration?v.duration:9)*1000)}
+  hero.style.setProperty('--dur',d+'ms');
+  const p=$('#prog');p.classList.remove('run');void p.offsetWidth;p.classList.add('run');
+  clearTimeout(timer);timer=setTimeout(()=>{const cv=slides[cur].querySelector('video');go(cv&&!cv.muted?cur:cur+1)},d)}
+$('#sound').addEventListener('click',e=>{e.stopPropagation();hv.muted=!hv.muted;if(!hv.muted)hv.play().catch(()=>{});
+  e.currentTarget.textContent=hv.muted?'Sound off':'Sound on';e.currentTarget.setAttribute('aria-pressed',String(!hv.muted))});
+hv.addEventListener('loadedmetadata',()=>{if(cur===0)go(0)},{once:true});
 $('#next').onclick=()=>go(cur+1);$('#prev').onclick=()=>go(cur-1);go(0);
 let tx=null,ty=0,swiped=false;
 hero.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;swiped=false},{passive:true});
 hero.addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){swiped=true;go(cur+(dx<0?1:-1))}tx=null},{passive:true});
-document.addEventListener('visibilitychange',()=>{document.hidden?clearTimeout(timer):go(cur)});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){clearTimeout(timer);hv.pause()}else go(cur)});
 
 /* filters */
 function filter(f){$$('#filters button').forEach(b=>b.classList.toggle('on',b.dataset.f===f));
@@ -436,10 +453,13 @@ let tt;const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show
 
 /* plain lightbox */
 const lb=$('#lightbox');let set=[],li=0;
-function show(){const it=set[li];$('#lbImg').src=it.src;$('#lbImg').alt=it.alt;$('#lbCap').textContent=it.cap;
+function show(){const it=set[li],im=$('#lbImg'),lv=$('#lbVid');
+  if(it.video){im.hidden=true;lv.hidden=false;lv.src=it.src;lv.poster=it.poster||'';lv.muted=false;lv.currentTime=0;lv.play().catch(()=>{})}
+  else{lv.pause();lv.hidden=true;im.hidden=false;im.src=it.src;im.alt=it.alt}
+  $('#lbCap').textContent=it.cap;
   $('#lbCount').textContent=set.length>1?`${li+1} / ${set.length}`:'';$$('#lightbox .lbui button').forEach(b=>b.style.visibility=set.length>1?'visible':'hidden')}
-function openLb(items,i){set=items;li=i;show();lb.classList.add('open');clearTimeout(timer);document.body.style.overflow='hidden'}
-function closeLb(){lb.classList.remove('open');document.body.style.overflow='';timer=setTimeout(()=>go(cur+1),DUR)}
+function openLb(items,i){set=items;li=i;show();lb.classList.add('open');clearTimeout(timer);hv.pause();document.body.style.overflow='hidden'}
+function closeLb(){lb.classList.remove('open');$('#lbVid').pause();document.body.style.overflow='';go(cur)}
 const step=d=>{if(set.length<2)return;li=(li+d+set.length)%set.length;show()};
 const item=(img,cap)=>({src:img.currentSrc||img.src,alt:img.alt,cap:cap||img.alt});
 
@@ -450,7 +470,10 @@ document.addEventListener('click',e=>{
   if(p&&!e.target.closest('.sizes')){const x=G[p.dataset.g][+p.dataset.i];openLb([...p.querySelectorAll('img')].map((im,k)=>item(im,x.n+' — '+x.c+(k?' · Alternate view':''))),0)}
 });
 $$('#strip figure').forEach((f,i,all)=>f.onclick=()=>openLb(all.map(x=>item(x.querySelector('img'),x.querySelector('figcaption').textContent)),i));
-$$('.slide figure').forEach(f=>f.addEventListener('click',()=>{if(swiped)return;const ims=[...f.closest('.slide').querySelectorAll('img')].filter(im=>im.offsetParent);openLb(ims.map(im=>item(im)),Math.max(0,ims.indexOf(f.querySelector('img'))))}));
+const film=()=>openLb([{video:true,src:hv.currentSrc||hv.src,poster:'video/campaign-poster.webp',cap:'Noite Feroz — Phantom Camo Campaign Film'}],0);
+$('.vfig').addEventListener('click',e=>{if(swiped||e.target.closest('.sound'))return;film()});
+$('#watch').addEventListener('click',e=>{e.preventDefault();film()});
+$$('.slide figure:not(.vfig)').forEach(f=>f.addEventListener('click',()=>{if(swiped)return;const ims=[...f.closest('.slide').querySelectorAll('img')].filter(im=>im.offsetParent);openLb(ims.map(im=>item(im)),Math.max(0,ims.indexOf(f.querySelector('img'))))}));
 $('.edit figure').onclick=e=>openLb([item(e.currentTarget.querySelector('img'),'Glow Phantom Duffle')],0);
 $('#sNext').onclick=()=>$('#strip').scrollBy({left:$('#strip').clientWidth*.7,behavior:'smooth'});
 $('#sPrev').onclick=()=>$('#strip').scrollBy({left:-$('#strip').clientWidth*.7,behavior:'smooth'});
